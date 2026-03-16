@@ -6,196 +6,276 @@
 <title>Bucks Quiz</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  :root{--gold:#D4A017}
-  body{font-family:'DM Sans',sans-serif;background:#f5f4f0;min-height:100vh}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#D4A017;--gold-print:#9a7010}
+body{font-family:'DM Sans',sans-serif;background:#f5f4f0;min-height:100vh}
 
-  /* ── QUIZ SCREENS ── */
-  #quizApp{max-width:480px;margin:0 auto;background:#fff;min-height:100vh;padding-bottom:100px}
-  .header{background:#111;color:#fff;padding:20px 20px 16px;text-align:center}
-  .progress-bar{height:3px;background:#333;margin-top:14px}
-  .progress-fill{height:3px;background:var(--gold);transition:width 0.4s ease}
-  .progress-text{font-size:11px;color:#888;margin-top:6px}
-  .section-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:20px 20px 8px;background:#111}
-  .q-card{background:#fff;border-bottom:0.5px solid #e5e5e5;padding:20px}
-  .q-title{font-size:16px;font-weight:500;color:#111;margin-bottom:14px;line-height:1.4}
-  .q-sub{font-size:12px;color:#888;margin-top:-10px;margin-bottom:14px}
-  .scale-wrap{padding:4px 0 8px}
-  .scale-val{text-align:center;font-size:22px;font-weight:500;color:#111;margin-bottom:8px}
-  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:28px;cursor:pointer;display:block}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,0.3);margin-top:-11px}
-  input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:#e5e5e5}
-  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,0.3)}
-  input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e5e5}
-  .scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-top:6px}
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{padding:10px 16px;border-radius:24px;border:1.5px solid #ddd;font-size:13px;font-weight:500;cursor:pointer;color:#111;background:#fff;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
-  .chip.selected{background:#111;color:var(--gold);border-color:#111}
-  .text-input{width:100%;border:1.5px solid #ddd;border-radius:12px;padding:12px 16px;font-size:15px;color:#111;background:#fff;font-family:'DM Sans',sans-serif}
-  .text-input:focus{outline:none;border-color:var(--gold)}
-  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 20px 28px;background:#fff;border-top:0.5px solid #e5e5e5;display:flex;gap:10px}
-  .btn-prev{flex:1;padding:15px;border-radius:14px;border:1.5px solid #ddd;background:transparent;font-size:15px;font-weight:500;cursor:pointer;color:#888;font-family:'DM Sans',sans-serif}
-  .btn-prev:disabled{opacity:0.3}
-  .btn-next{flex:2;padding:15px;border-radius:14px;border:none;background:#111;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:20px;cursor:pointer}
-  .name-screen{padding:40px 24px;text-align:center}
-  .name-screen p{color:#888;font-size:14px;margin-bottom:28px;line-height:1.6}
-  .name-input-big{width:100%;border:2px solid #ddd;border-radius:14px;padding:16px 18px;font-size:18px;color:#111;background:#fff;font-family:'DM Sans',sans-serif;text-align:center}
-  .name-input-big:focus{outline:none;border-color:var(--gold)}
-  .start-btn{width:100%;margin-top:20px;padding:18px;border-radius:14px;border:none;background:#111;color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;cursor:pointer}
+/* ── QUIZ ── */
+#quizApp{max-width:480px;margin:0 auto;background:#fff;min-height:100vh;padding-bottom:100px}
+.header{background:#111;padding:20px 20px 16px;text-align:center}
+.progress-bar{height:3px;background:#333;margin-top:14px}
+.progress-fill{height:3px;background:var(--gold);transition:width 0.4s}
+.progress-text{font-size:11px;color:#888;margin-top:6px}
+.section-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:20px 20px 8px;background:#111}
+.q-card{background:#fff;border-bottom:0.5px solid #e5e5e5;padding:20px}
+.q-title{font-size:16px;font-weight:500;color:#111;margin-bottom:14px;line-height:1.4}
+.q-sub{font-size:12px;color:#888;margin-top:-10px;margin-bottom:14px}
+.scale-wrap{padding:4px 0 8px}
+.scale-val{text-align:center;font-size:22px;font-weight:500;color:#111;margin-bottom:8px}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:28px;cursor:pointer;display:block}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,0.3);margin-top:-11px}
+input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:#e5e5e5}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #fff}
+input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e5e5}
+.scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 16px;border-radius:24px;border:1.5px solid #ddd;font-size:13px;font-weight:500;cursor:pointer;color:#111;background:#fff;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.chip.selected{background:#111;color:var(--gold);border-color:#111}
+.text-input{width:100%;border:1.5px solid #ddd;border-radius:12px;padding:12px 16px;font-size:15px;color:#111;background:#fff;font-family:'DM Sans',sans-serif}
+.text-input:focus{outline:none;border-color:var(--gold)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 20px 28px;background:#fff;border-top:0.5px solid #e5e5e5;display:flex;gap:10px}
+.btn-prev{flex:1;padding:15px;border-radius:14px;border:1.5px solid #ddd;background:transparent;font-size:15px;font-weight:500;cursor:pointer;color:#888;font-family:'DM Sans',sans-serif}
+.btn-prev:disabled{opacity:0.3}
+.btn-next{flex:2;padding:15px;border-radius:14px;border:none;background:#111;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:20px;cursor:pointer}
+.name-screen{padding:40px 24px;text-align:center}
+.name-screen p{color:#888;font-size:14px;margin-bottom:28px;line-height:1.6}
+.name-input-big{width:100%;border:2px solid #ddd;border-radius:14px;padding:16px 18px;font-size:18px;color:#111;background:#fff;font-family:'DM Sans',sans-serif;text-align:center}
+.name-input-big:focus{outline:none;border-color:var(--gold)}
+.start-btn{width:100%;margin-top:20px;padding:18px;border-radius:14px;border:none;background:#111;color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;cursor:pointer}
 
-  /* ── STAT SHEET SCREEN ── */
-  #statSheet{display:none;background:#1a1a1a;min-height:100vh;padding:24px 16px 40px;align-items:center;flex-direction:column}
-  .sheet-intro{max-width:420px;width:100%;text-align:center;margin-bottom:20px}
-  .sheet-intro h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#D4A017;margin-bottom:6px}
-  .sheet-intro p{font-size:13px;color:#666;line-height:1.5}
+/* ── STAT SHEET (web, dark) ── */
+#statSheet{display:none;background:#0d0d0d;min-height:100vh;padding:20px 16px 48px}
+.sheet-actions{display:flex;flex-direction:column;gap:10px;margin-top:20px;max-width:900px;margin-left:auto;margin-right:auto}
+.btn-print{width:100%;padding:16px;background:var(--gold);border:none;color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer}
+.btn-copy-sheet{width:100%;padding:13px;background:transparent;border:1px solid #333;color:#666;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+.btn-restart{width:100%;padding:12px;background:transparent;border:none;color:#444;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.sheet-hint{font-family:'DM Mono',monospace;font-size:10px;color:#444;text-align:center;margin-top:4px}
 
-  .card{width:100%;max-width:420px;background:#111;border:1px solid #2a2a2a;border-radius:4px;overflow:hidden}
-  .card-header{background:#000;padding:16px 20px 14px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid #D4A017}
-  .card-name{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:2px;color:#D4A017;line-height:1}
-  .card-tag{font-family:'DM Mono',monospace;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;padding-bottom:4px}
-  .mystery-badge{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:#000;background:#D4A017;padding:4px 10px;border-radius:2px;margin-bottom:4px}
-  .section{border-bottom:1px solid #1e1e1e}
-  .section:last-child{border-bottom:none}
-  .section-header{padding:8px 20px 6px;background:#0a0a0a;display:flex;align-items:center;gap:8px}
-  .section-title{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:#444}
-  .section-line{flex:1;height:1px;background:#1e1e1e}
-  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
-  .stat{padding:10px 20px;border-bottom:1px solid #181818;border-right:1px solid #181818}
-  .stat:nth-child(even){border-right:none}
-  .stat:nth-last-child(-n+2){border-bottom:none}
-  .stat.full{grid-column:1/-1;border-right:none}
-  .stat-label{font-family:'DM Mono',monospace;font-size:9px;color:#444;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
-  .stat-value{font-family:'DM Mono',monospace;font-size:13px;color:#e8e8e8;font-weight:500}
-  .stat-value.gold{color:#D4A017}
-  .bar-wrap{margin-top:5px;height:3px;background:#222;border-radius:2px;width:100%}
-  .bar-fill{height:3px;background:#D4A017;border-radius:2px;transition:width 0.3s}
-  .card-footer{padding:10px 20px;background:#000;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #1e1e1e}
-  .footer-text{font-family:'DM Mono',monospace;font-size:9px;color:#333;letter-spacing:2px}
-  .dots{display:flex;gap:4px}
-  .dot{width:5px;height:5px;border-radius:50%;background:#222}
-  .dot.active{background:#D4A017}
+/* ── DASHBOARD CARD ── */
+#dashCard{background:#0d0d0d;width:100%;max-width:900px;margin:0 auto;font-family:'DM Sans',sans-serif}
+.dc-header{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--gold);padding-bottom:10px;margin-bottom:12px}
+.dc-name{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold);letter-spacing:3px;line-height:1}
+.dc-sub{font-family:'DM Mono',monospace;font-size:9px;color:#444;letter-spacing:2px;margin-top:3px}
+.dc-badge{background:var(--gold);color:#000;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;padding:5px 12px}
+.dc-row{display:grid;gap:8px;margin-bottom:8px}
+.dc-r4{grid-template-columns:repeat(4,1fr)}
+.dc-r3{grid-template-columns:repeat(3,1fr)}
+.dc-r25{grid-template-columns:2fr 5fr}
+.panel{background:#161616;border:0.5px solid #242424;padding:11px 13px}
+.pt{font-family:'DM Mono',monospace;font-size:8px;color:#484848;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
+.pbig{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--gold);line-height:1}
+.pbig-sm{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);line-height:1.1;margin-top:3px}
+.psub{font-family:'DM Mono',monospace;font-size:8px;color:#3a3a3a;text-transform:uppercase;margin-top:3px}
+.pchip{display:inline-block;border:0.5px solid var(--gold);color:var(--gold);font-family:'DM Mono',monospace;font-size:10px;padding:2px 7px;margin-top:5px}
+.pchip-n{display:inline-block;border:0.5px solid #333;color:#888;font-family:'DM Mono',monospace;font-size:10px;padding:2px 7px;margin-top:5px}
+.brow{display:flex;align-items:center;gap:5px;margin-bottom:4px}
+.blbl{font-family:'DM Mono',monospace;font-size:8px;color:#555;width:82px;flex-shrink:0;text-transform:uppercase}
+.btrack{flex:1;height:5px;background:#1e1e1e}
+.bfill-g{height:5px;background:var(--gold)}
+.bfill-t{height:5px;background:#0F6E56}
+.bfill-r{height:5px;background:#7a1f1f}
+.bnum{font-family:'DM Mono',monospace;font-size:8px;color:#444;width:14px;text-align:right}
+.orow{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.orow:last-child{margin-bottom:0}
+.olbl{font-family:'DM Mono',monospace;font-size:8px;color:#484848;text-transform:uppercase}
+.dc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;border-top:0.5px solid #1e1e1e;padding-top:8px}
+.dc-ft{font-family:'DM Mono',monospace;font-size:8px;color:#2a2a2a;letter-spacing:2px}
+.dc-dots{display:flex;gap:3px}
+.dc-dot{width:5px;height:5px;border-radius:50%;background:#1e1e1e}
+.dc-dot.on{background:var(--gold)}
 
-  .sheet-actions{max-width:420px;width:100%;display:flex;flex-direction:column;gap:10px;margin-top:20px}
-  .btn-screenshot{width:100%;padding:16px;background:#D4A017;border:none;color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;border-radius:2px}
-  .btn-copy{width:100%;padding:14px;background:transparent;border:1px solid #333;color:#888;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;border-radius:2px}
-  .btn-restart{width:100%;padding:14px;background:transparent;border:none;color:#444;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
-  .hint{font-size:12px;color:#555;text-align:center;margin-top:4px;font-family:'DM Mono',monospace}
-
-  @media print{
-    @page{size:A4 portrait;margin:8mm}
-    html,body{height:100%;width:100%}
-    #quizApp{display:none!important}
-    #statSheet{display:block!important;background:#fff;padding:0;min-height:unset}
-    .sheet-intro,.sheet-actions,.hint{display:none!important}
-    .card{border:1px solid #ccc;background:#fff;max-width:100%;border-radius:0;width:100%}
-    .card-header{background:#111!important;padding:8px 12px 7px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .card-name{font-size:26px!important}
-    .mystery-badge{font-size:9px!important;padding:2px 7px!important}
-    .card-tag{font-size:8px!important}
-    .section-header{background:#f5f5f5!important;padding:4px 12px 3px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .section-title{font-size:9px!important}
-    .stat{background:#fff!important;border-color:#eee!important;padding:5px 12px!important}
-    .stat-label{color:#999!important;font-size:7px!important;margin-bottom:2px!important}
-    .stat-value{color:#111!important;font-size:10px!important}
-    .stat-value.gold{color:#b8870f!important}
-    .bar-wrap{margin-top:3px!important;height:2px!important}
-    .bar-fill{background:#b8870f!important;height:2px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .bar-wrap{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .card-footer{background:#111!important;padding:6px 12px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .footer-text{font-size:7px!important}
-    .dot{width:4px!important;height:4px!important}
-  }
+/* ── PRINT ── */
+@media print{
+  @page{size:A4 landscape;margin:6mm}
+  body{background:#fff}
+  #quizApp{display:none!important}
+  .sheet-actions{display:none!important}
+  #statSheet{display:block!important;background:#fff!important;padding:0!important;min-height:unset!important}
+  #dashCard{background:#fff!important;max-width:100%!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .dc-header{border-bottom:2px solid var(--gold-print)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .dc-name{color:var(--gold-print)!important;font-size:30px!important}
+  .dc-sub{color:#999!important}
+  .dc-badge{background:var(--gold-print)!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .panel{background:#f8f8f8!important;border:0.5px solid #ddd!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pt{color:#aaa!important}
+  .pbig{color:var(--gold-print)!important;font-size:26px!important}
+  .pbig-sm{color:var(--gold-print)!important;font-size:16px!important}
+  .psub{color:#bbb!important}
+  .pchip{border-color:var(--gold-print)!important;color:var(--gold-print)!important;font-size:9px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pchip-n{border-color:#ccc!important;color:#555!important;font-size:9px!important}
+  .blbl{color:#aaa!important}
+  .btrack{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bfill-g{background:var(--gold-print)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bfill-t{background:#1D9E75!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bfill-r{background:#A32D2D!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bnum{color:#aaa!important}
+  .olbl{color:#aaa!important}
+  .orow .pchip,.orow .pchip-n{padding:1px 5px!important}
+  .dc-footer{border-top:0.5px solid #ddd!important}
+  .dc-ft{color:#ccc!important}
+  .dc-dot{background:#eee!important}
+  .dc-dot.on{background:var(--gold-print)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  canvas{display:none!important}
+  .chart-wrap{display:none!important}
+  .no-chart-fallback{display:block!important}
+}
+.no-chart-fallback{display:none}
 </style>
 </head>
 <body>
 
-<!-- QUIZ -->
 <div id="quizApp"></div>
 
-<!-- STAT SHEET -->
 <div id="statSheet">
-  <div class="sheet-intro">
-    <h2>Your stat sheet</h2>
-    <p>Screenshot this and send it to the group, or print it out on the night.</p>
-  </div>
-
-  <div class="card" id="statCard">
-    <div class="card-header">
+  <div id="dashCard">
+    <div class="dc-header">
       <div>
-        <div class="card-tag">Find this person</div>
-        <div class="card-name" id="sc-name">???</div>
+        <div class="dc-name" id="dc-name">???</div>
+        <div class="dc-sub">BUCKS NIGHT 2025 — FIND THIS PERSON</div>
       </div>
-      <div style="text-align:right">
-        <div class="mystery-badge">WHO AM I?</div>
+      <div class="dc-badge">WHO AM I?</div>
+    </div>
+
+    <div class="dc-row dc-r4">
+      <div class="panel">
+        <div class="pt">MBTI</div>
+        <div class="pbig" id="dc-mbti">—</div>
+        <div class="psub">Personality type</div>
+      </div>
+      <div class="panel">
+        <div class="pt">HP House</div>
+        <div class="pbig-sm" id="dc-hp">—</div>
+        <div class="psub">Sorted house</div>
+      </div>
+      <div class="panel">
+        <div class="pt">Attachment style</div>
+        <div class="pbig-sm" id="dc-attachment">—</div>
+        <div class="psub">Relationship pattern</div>
+      </div>
+      <div class="panel">
+        <div class="pt">Favourite film</div>
+        <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);margin-top:5px;line-height:1.4" id="dc-film">—</div>
+        <div class="psub" style="margin-top:4px">Cinema taste</div>
       </div>
     </div>
-    <div class="card-body">
-      <div class="section">
-        <div class="section-header"><span class="section-title">Personality</span><div class="section-line"></div></div>
-        <div class="stats-grid">
-          <div class="stat"><div class="stat-label">MBTI</div><div class="stat-value gold" id="sc-mbti">—</div></div>
-          <div class="stat"><div class="stat-label">HP House</div><div class="stat-value gold" id="sc-hp">—</div></div>
-          <div class="stat"><div class="stat-label">ADHD Scale</div><div class="stat-value" id="sc-adhd">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-adhd" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">EQ</div><div class="stat-value" id="sc-eq">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-eq" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Narcissism</div><div class="stat-value" id="sc-narc">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-narc" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Machiavellianism</div><div class="stat-value" id="sc-mach">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-mach" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Psychopathy</div><div class="stat-value" id="sc-psy">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-psy" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Attachment</div><div class="stat-value gold" id="sc-att">—</div></div>
+
+    <div class="dc-row dc-r25">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="panel" style="flex:1">
+          <div class="pt">Dark Triad + personality</div>
+          <div class="brow"><div class="blbl">Narcissism</div><div class="btrack"><div class="bfill-g" id="db-narc" style="width:0%"></div></div><div class="bnum" id="dn-narc">—</div></div>
+          <div class="brow"><div class="blbl">Machiavellianism</div><div class="btrack"><div class="bfill-g" id="db-mach" style="width:0%"></div></div><div class="bnum" id="dn-mach">—</div></div>
+          <div class="brow"><div class="blbl">Psychopathy</div><div class="btrack"><div class="bfill-g" id="db-psy" style="width:0%"></div></div><div class="bnum" id="dn-psy">—</div></div>
+          <div class="brow"><div class="blbl">ADHD</div><div class="btrack"><div class="bfill-t" id="db-adhd" style="width:0%"></div></div><div class="bnum" id="dn-adhd">—</div></div>
+          <div class="brow"><div class="blbl">EQ</div><div class="btrack"><div class="bfill-t" id="db-eq" style="width:0%"></div></div><div class="bnum" id="dn-eq">—</div></div>
+        </div>
+        <div class="panel" style="flex:1">
+          <div class="pt">Lifestyle</div>
+          <div class="brow"><div class="blbl">Heavyweight</div><div class="btrack"><div class="bfill-r" id="db-lightweight" style="width:0%"></div></div><div class="bnum" id="dn-lightweight">—</div></div>
+          <div class="brow"><div class="blbl">Night owl</div><div class="btrack"><div class="bfill-t" id="db-morning" style="width:0%"></div></div><div class="bnum" id="dn-morning">—</div></div>
+          <div class="brow"><div class="blbl">Cleanliness</div><div class="btrack"><div class="bfill-t" id="db-clean" style="width:0%"></div></div><div class="bnum" id="dn-clean">—</div></div>
+          <div class="brow"><div class="blbl">Messy tonight</div><div class="btrack"><div class="bfill-r" id="db-messy" style="width:0%"></div></div><div class="bnum" id="dn-messy">—</div></div>
+          <div class="brow"><div class="blbl">Cry rating</div><div class="btrack"><div class="bfill-g" id="db-cry" style="width:0%"></div></div><div class="bnum" id="dn-cry">—</div></div>
         </div>
       </div>
-      <div class="section">
-        <div class="section-header"><span class="section-title">Politics & Ethics</span><div class="section-line"></div></div>
-        <div class="stats-grid">
-          <div class="stat"><div class="stat-label">Compass</div><div class="stat-value gold" id="sc-compass">—</div></div>
-          <div class="stat"><div class="stat-label">Pro-Life / Choice</div><div class="stat-value gold" id="sc-prochoice">—</div></div>
-          <div class="stat"><div class="stat-label">Death Penalty</div><div class="stat-value" id="sc-death_pen">—</div></div>
-          <div class="stat"><div class="stat-label">Drugs</div><div class="stat-value" id="sc-drugs">—</div></div>
-          <div class="stat"><div class="stat-label">Age of Consent</div><div class="stat-value" id="sc-aoc">—</div></div>
-          <div class="stat"><div class="stat-label">Immigration</div><div class="stat-value" id="sc-immigration">—</div></div>
-          <div class="stat"><div class="stat-label">Capital Pun. Paedos</div><div class="stat-value" id="sc-paedo">—</div></div>
-          <div class="stat"><div class="stat-label">Euthanasia</div><div class="stat-value" id="sc-euthanasia">—</div></div>
-          <div class="stat"><div class="stat-label">Gone Woke Scale</div><div class="stat-value" id="sc-woke">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-woke" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Commie vs Fascist</div><div class="stat-value gold" id="sc-commfasc">—</div></div>
-          <div class="stat"><div class="stat-label">Push Fat Man?</div><div class="stat-value" id="sc-trolley">—</div></div>
-          <div class="stat"><div class="stat-label">Eat the Rich</div><div class="stat-value" id="sc-eatrich">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-eatrich" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Would You Cheat?</div><div class="stat-value" id="sc-cheat">—</div></div>
-          <div class="stat"><div class="stat-label">Grass a Friend?</div><div class="stat-value" id="sc-turnin">—</div></div>
-          <div class="stat full"><div class="stat-label">Cancel Culture</div><div class="stat-value gold" id="sc-cancel">—</div></div>
+
+      <div class="panel">
+        <div class="pt">Radar — personality &amp; lifestyle</div>
+        <div class="chart-wrap" style="position:relative;width:100%;height:210px"><canvas id="radarChart"></canvas></div>
+        <div class="no-chart-fallback" style="display:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:4px">
+            <div class="brow"><div class="blbl">Narcissism</div><div class="btrack"><div class="bfill-g" id="dbp-narc" style="width:0%"></div></div><div class="bnum" id="dnp-narc">—</div></div>
+            <div class="brow"><div class="blbl">Machiavellianism</div><div class="btrack"><div class="bfill-g" id="dbp-mach" style="width:0%"></div></div><div class="bnum" id="dnp-mach">—</div></div>
+            <div class="brow"><div class="blbl">Psychopathy</div><div class="btrack"><div class="bfill-g" id="dbp-psy" style="width:0%"></div></div><div class="bnum" id="dnp-psy">—</div></div>
+            <div class="brow"><div class="blbl">ADHD</div><div class="btrack"><div class="bfill-t" id="dbp-adhd" style="width:0%"></div></div><div class="bnum" id="dnp-adhd">—</div></div>
+            <div class="brow"><div class="blbl">EQ</div><div class="btrack"><div class="bfill-t" id="dbp-eq" style="width:0%"></div></div><div class="bnum" id="dnp-eq">—</div></div>
+            <div class="brow"><div class="blbl">Heavyweight</div><div class="btrack"><div class="bfill-r" id="dbp-lw" style="width:0%"></div></div><div class="bnum" id="dnp-lw">—</div></div>
+            <div class="brow"><div class="blbl">Night owl</div><div class="btrack"><div class="bfill-t" id="dbp-mo" style="width:0%"></div></div><div class="bnum" id="dnp-mo">—</div></div>
+            <div class="brow"><div class="blbl">Cleanliness</div><div class="btrack"><div class="bfill-t" id="dbp-cl" style="width:0%"></div></div><div class="bnum" id="dnp-cl">—</div></div>
+            <div class="brow"><div class="blbl">Messy tonight</div><div class="btrack"><div class="bfill-r" id="dbp-ms" style="width:0%"></div></div><div class="bnum" id="dnp-ms">—</div></div>
+          </div>
         </div>
-      </div>
-      <div class="section">
-        <div class="section-header"><span class="section-title">Lifestyle</span><div class="section-line"></div></div>
-        <div class="stats-grid">
-          <div class="stat"><div class="stat-label">Heavyweight Scale</div><div class="stat-value" id="sc-lightweight">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-lightweight" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Night Owl Scale</div><div class="stat-value" id="sc-morning">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-morning" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Cleanliness</div><div class="stat-value" id="sc-clean">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-clean" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Messiness Tonight</div><div class="stat-value" id="sc-messy_tonight">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-messy_tonight" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Cry Rating</div><div class="stat-value" id="sc-cry_tonight">—</div><div class="bar-wrap"><div class="bar-fill" id="sb-cry_tonight" style="width:0%"></div></div></div>
-          <div class="stat"><div class="stat-label">Arrest %</div><div class="stat-value gold" id="sc-arrested">—</div></div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-header"><span class="section-title">Favourites</span><div class="section-line"></div></div>
-        <div class="stats-grid">
-          <div class="stat full"><div class="stat-label">Favourite Film</div><div class="stat-value gold" id="sc-film">—</div></div>
+        <div style="display:flex;gap:12px;margin-top:8px">
+          <span style="display:flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:8px;color:#444"><span style="width:8px;height:8px;background:#D4A017;display:inline-block"></span>Dark Triad</span>
+          <span style="display:flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:8px;color:#444"><span style="width:8px;height:8px;background:#0F6E56;display:inline-block"></span>Lifestyle</span>
         </div>
       </div>
     </div>
-    <div class="card-footer">
-      <div class="footer-text">BUCKS NIGHT 2025</div>
-      <div class="dots"><div class="dot active"></div><div class="dot active"></div><div class="dot"></div></div>
-      <div class="footer-text">FIND YOUR MATCH</div>
+
+    <div class="dc-row dc-r3">
+      <div class="panel">
+        <div class="pt">Political compass</div>
+        <div class="chart-wrap" style="position:relative;width:100%;height:120px"><canvas id="compassChart"></canvas></div>
+        <div class="no-chart-fallback">
+          <div style="margin-top:6px"><span class="pchip" id="dc-compass-fallback">—</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="pt">Ethics</div>
+        <div class="orow"><div class="olbl">Death penalty</div><div class="pchip" id="dc-death_pen">—</div></div>
+        <div class="orow"><div class="olbl">Pro-life / choice</div><div class="pchip" id="dc-prochoice">—</div></div>
+        <div class="orow"><div class="olbl">Euthanasia</div><div class="pchip-n" id="dc-euthanasia">—</div></div>
+        <div class="orow"><div class="olbl">Capital pun. paedos</div><div class="pchip" id="dc-paedo">—</div></div>
+        <div class="orow"><div class="olbl">Commie or fascist?</div><div class="pchip" id="dc-commfasc">—</div></div>
+        <div class="orow"><div class="olbl">Push the fat man?</div><div class="pchip" id="dc-trolley">—</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="pt">More opinions</div>
+        <div class="orow"><div class="olbl">Drug policy</div><div class="pchip-n" id="dc-drugs">—</div></div>
+        <div class="orow"><div class="olbl">Immigration</div><div class="pchip" id="dc-immigration">—</div></div>
+        <div class="orow"><div class="olbl">Age of consent</div><div class="pchip-n" id="dc-aoc">—</div></div>
+        <div class="orow"><div class="olbl">Cancel culture</div><div class="pchip-n" id="dc-cancel">—</div></div>
+        <div class="orow"><div class="olbl">Would you cheat?</div><div class="pchip-n" id="dc-cheat">—</div></div>
+        <div class="orow"><div class="olbl">Grass a friend?</div><div class="pchip-n" id="dc-turnin">—</div></div>
+      </div>
+    </div>
+
+    <div class="dc-row dc-r3">
+      <div class="panel" style="grid-column:1/3">
+        <div class="pt">All scales at a glance</div>
+        <div class="chart-wrap" style="position:relative;width:100%;height:100px"><canvas id="scalesChart"></canvas></div>
+        <div class="no-chart-fallback">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:4px">
+            <div class="brow"><div class="blbl">Gone woke</div><div class="btrack"><div class="bfill-g" id="dbp-woke" style="width:0%"></div></div><div class="bnum" id="dnp-woke">—</div></div>
+            <div class="brow"><div class="blbl">Eat rich</div><div class="btrack"><div class="bfill-t" id="dbp-eat" style="width:0%"></div></div><div class="bnum" id="dnp-eat">—</div></div>
+            <div class="brow"><div class="blbl">Arrest %</div><div class="btrack"><div class="bfill-r" id="dbp-arr" style="width:0%"></div></div><div class="bnum" id="dnp-arr">—</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;height:100%">
+          <div>
+            <div class="pt">Gone woke scale</div>
+            <div class="pbig" id="dc-woke">—</div>
+            <div class="psub">/ 10</div>
+          </div>
+          <div style="text-align:right">
+            <div class="pt">Arrest % tonight</div>
+            <div class="pbig" id="dc-arrested" style="color:#7a1f1f">—</div>
+            <div class="psub">chance of arrest</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc-footer">
+      <div class="dc-ft">BUCKS NIGHT 2025</div>
+      <div class="dc-dots"><div class="dc-dot on"></div><div class="dc-dot on"></div><div class="dc-dot"></div></div>
+      <div class="dc-ft">FIND YOUR MATCH</div>
     </div>
   </div>
 
   <div class="sheet-actions">
-    <button class="btn-screenshot" onclick="window.print()">SAVE AS PDF / PRINT</button>
-    <p class="hint">Or just screenshot the card above</p>
-    <button class="btn-copy" onclick="copySheet()">Copy as text</button>
+    <button class="btn-print" onclick="window.print()">SAVE AS PDF / PRINT</button>
+    <p class="sheet-hint">Or screenshot the card above to share on WhatsApp</p>
+    <button class="btn-copy-sheet" onclick="copySheet()">Copy as text</button>
     <button class="btn-restart" onclick="restart()">Start again</button>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const sections=[
   {label:"Personality",questions:[
@@ -238,31 +318,18 @@ const sections=[
   ]}
 ];
 
-// scale id -> card id mapping (dark_narc -> narc etc)
-const idMap={dark_narc:"narc",dark_mach:"mach",dark_psy:"psy"};
-function cardId(id){return idMap[id]||id;}
-
 let state={screen:"name",name:"",section:0,question:0,answers:{}};
+let radarChartInst=null, scalesChartInst=null, compassCtx=null;
+
 function totalQuestions(){return sections.reduce((a,s)=>a+s.questions.length,0)}
 function flatIndex(){let i=0;for(let s=0;s<state.section;s++)i+=sections[s].questions.length;return i+state.question}
 function currentQ(){return sections[state.section].questions[state.question]}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 function render(){
-  if(state.screen==="name"){showQuiz();renderName();return;}
-  if(state.screen==="sheet"){showSheet();populateSheet();return;}
-  showQuiz();renderQuestion();
-}
-
-function showQuiz(){
-  document.getElementById('quizApp').style.display='block';
-  document.getElementById('statSheet').style.display='none';
-}
-function showSheet(){
-  document.getElementById('quizApp').style.display='none';
-  const s=document.getElementById('statSheet');
-  s.style.display='flex';
-  window.scrollTo(0,0);
+  if(state.screen==="name"){document.getElementById('quizApp').style.display='block';document.getElementById('statSheet').style.display='none';renderName();return;}
+  if(state.screen==="sheet"){document.getElementById('quizApp').style.display='none';document.getElementById('statSheet').style.display='block';populateSheet();window.scrollTo(0,0);return;}
+  document.getElementById('quizApp').style.display='block';document.getElementById('statSheet').style.display='none';renderQuestion();
 }
 
 function renderName(){
@@ -281,74 +348,111 @@ function renderName(){
 }
 
 function renderQuestion(){
-  const q=currentQ();
-  const fi=flatIndex();
-  const total=totalQuestions();
-  const pct=Math.round((fi/total)*100);
-  const sec=sections[state.section];
-  const ans=state.answers[q.id];
+  const q=currentQ(),fi=flatIndex(),total=totalQuestions(),pct=Math.round((fi/total)*100);
+  const sec=sections[state.section],ans=state.answers[q.id];
   if(q.type==="scale"&&ans===undefined)state.answers[q.id]=q.def;
   let qHTML="";
   if(q.type==="scale"){
     const val=ans!==undefined?ans:q.def;
-    qHTML=`<div class="scale-wrap">
-      <div class="scale-val" id="sv_${q.id}">${val}${q.id==="arrested"?"%":""}</div>
-      <input type="range" min="${q.min||1}" max="${q.max||10}" step="${q.step||1}" value="${val}" oninput="setScale('${q.id}',this)">
-      <div class="scale-labels"><span>${q.lo}</span><span>${q.hi}</span></div>
-    </div>`;
+    qHTML=`<div class="scale-wrap"><div class="scale-val" id="sv_${q.id}">${val}${q.id==="arrested"?"%":""}</div><input type="range" min="${q.min||1}" max="${q.max||10}" step="${q.step||1}" value="${val}" oninput="setScale('${q.id}',this)"><div class="scale-labels"><span>${q.lo}</span><span>${q.hi}</span></div></div>`;
   }else if(q.type==="chips"){
     qHTML=`<div class="chips">${q.opts.map(o=>`<div class="chip${ans===o?" selected":""}" onclick="setChip('${q.id}','${o.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}',this)">${o}</div>`).join("")}</div>`;
   }else if(q.type==="text"){
     qHTML=`<input class="text-input" type="text" placeholder="${q.ph||""}" value="${esc(ans||"")}" oninput="setText('${q.id}',this.value)" autocomplete="off">`;
   }
   const isLast=(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1);
-  const isFirst=(state.section===0&&state.question===0);
   document.getElementById('quizApp').innerHTML=`
-  <div class="header">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--gold)">${esc(state.name.toUpperCase())}</div>
-    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <div class="progress-text">${fi+1} of ${total}</div>
-  </div>
+  <div class="header"><div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--gold)">${esc(state.name.toUpperCase())}</div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><div class="progress-text">${fi+1} of ${total}</div></div>
   <div class="section-label">${sec.label}</div>
-  <div class="q-card">
-    <div class="q-title">${q.q}</div>
-    ${q.sub?`<div class="q-sub">${q.sub}</div>`:""}
-    ${qHTML}
-  </div>
-  <div class="nav">
-    <button class="btn-prev" onclick="prev()" ${isFirst?"disabled":""}>Back</button>
-    <button class="btn-next" onclick="next()">${isLast?"FINISH ✓":"NEXT →"}</button>
-  </div>`;
+  <div class="q-card"><div class="q-title">${q.q}</div>${q.sub?`<div class="q-sub">${q.sub}</div>`:""}${qHTML}</div>
+  <div class="nav"><button class="btn-prev" onclick="prev()" ${fi===0?"disabled":""}>Back</button><button class="btn-next" onclick="next()">${isLast?"FINISH ✓":"NEXT →"}</button></div>`;
 }
+
+function bar(id,val,min,max){
+  const pct=Math.round(((val-min)/(max-min))*100);
+  const el=document.getElementById('db-'+id);if(el)el.style.width=pct+'%';
+  const nel=document.getElementById('dn-'+id);if(nel)nel.textContent=val;
+  const elp=document.getElementById('dbp-'+id);if(elp)elp.style.width=pct+'%';
+  const nelp=document.getElementById('dnp-'+id);if(nelp)nelp.textContent=val;
+}
+function chip(id,val){const el=document.getElementById('dc-'+id);if(el)el.textContent=val||'—';}
 
 function populateSheet(){
   const a=state.answers;
-  document.getElementById('sc-name').textContent=state.name||'???';
+  document.getElementById('dc-name').textContent=state.name||'???';
+  ['mbti','hp','attachment','film','death_pen','prochoice','euthanasia','paedo','commfasc','trolley','drugs','immigration','aoc','cancel','cheat','turnin'].forEach(id=>chip(id,a[id]));
+  document.getElementById('dc-compass-fallback').textContent=a.compass||'—';
 
-  // chips / text fields
-  const chipFields=['mbti','hp','attachment','compass','prochoice','death_pen','drugs','aoc','immigration','paedo','euthanasia','commfasc','trolley','cheat','turnin','cancel','film'];
-  chipFields.forEach(id=>{
-    const el=document.getElementById('sc-'+id);
-    if(el) el.textContent=a[id]||'—';
+  if(a.dark_narc!==undefined)bar('narc',a.dark_narc,1,10);
+  if(a.dark_mach!==undefined)bar('mach',a.dark_mach,1,10);
+  if(a.dark_psy!==undefined)bar('psy',a.dark_psy,1,10);
+  if(a.adhd!==undefined)bar('adhd',a.adhd,1,10);
+  if(a.eq!==undefined)bar('eq',a.eq,1,10);
+  if(a.lightweight!==undefined)bar('lightweight',a.lightweight,1,10);
+  if(a.morning!==undefined)bar('morning',a.morning,1,10);
+  if(a.clean!==undefined)bar('clean',a.clean,1,10);
+  if(a.messy_tonight!==undefined)bar('messy',a.messy_tonight,1,10);
+  if(a.cry_tonight!==undefined)bar('cry',a.cry_tonight,1,10);
+
+  const woke=a.woke||0,eat=a.eatrich||0,arr=a.arrested||0;
+  document.getElementById('dc-woke').textContent=woke||'—';
+  document.getElementById('dc-arrested').textContent=arr!==undefined?arr+'%':'—';
+  const wokeEl=document.getElementById('dbp-woke');if(wokeEl)wokeEl.style.width=Math.round((woke-1)/9*100)+'%';
+  const eatEl=document.getElementById('dbp-eat');if(eatEl)eatEl.style.width=Math.round((eat-1)/9*100)+'%';
+  const arrEl=document.getElementById('dbp-arr');if(arrEl)arrEl.style.width=arr+'%';
+  const wokeNel=document.getElementById('dnp-woke');if(wokeNel)wokeNel.textContent=woke;
+  const eatNel=document.getElementById('dnp-eat');if(eatNel)eatNel.textContent=eat;
+  const arrNel=document.getElementById('dnp-arr');if(arrNel)arrNel.textContent=arr+'%';
+
+  buildCharts(a);
+}
+
+function buildCharts(a){
+  Chart.defaults.color='#555';
+  Chart.defaults.font.family="'DM Mono',monospace";
+  Chart.defaults.font.size=9;
+
+  if(radarChartInst){radarChartInst.destroy();radarChartInst=null;}
+  if(scalesChartInst){scalesChartInst.destroy();scalesChartInst=null;}
+
+  radarChartInst=new Chart(document.getElementById('radarChart'),{
+    type:'radar',
+    data:{
+      labels:['Narc','Mach','Psych','ADHD','EQ','Heavyweight','Night owl','Cleanliness','Messy','Cry'],
+      datasets:[
+        {label:'Dark Triad/Pers.',data:[a.dark_narc||0,a.dark_mach||0,a.dark_psy||0,a.adhd||0,a.eq||0,0,0,0,0,0],borderColor:'#D4A017',backgroundColor:'rgba(212,160,23,0.1)',pointBackgroundColor:'#D4A017',borderWidth:1.5,pointRadius:2},
+        {label:'Lifestyle',data:[0,0,0,0,0,a.lightweight||0,a.morning||0,a.clean||0,a.messy_tonight||0,a.cry_tonight||0],borderColor:'#0F6E56',backgroundColor:'rgba(15,110,86,0.1)',pointBackgroundColor:'#0F6E56',borderWidth:1.5,pointRadius:2}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:10,grid:{color:'rgba(255,255,255,0.04)'},angleLines:{color:'rgba(255,255,255,0.04)'},pointLabels:{color:'#484848',font:{size:8}},ticks:{display:false,stepSize:2}}}}
   });
 
-  // scale fields with bars
-  const scaleFields=[
-    {id:'adhd',min:1,max:10},{id:'dark_narc',min:1,max:10,card:'narc'},{id:'dark_mach',min:1,max:10,card:'mach'},
-    {id:'dark_psy',min:1,max:10,card:'psy'},{id:'eq',min:1,max:10},{id:'woke',min:1,max:10},
-    {id:'eatrich',min:1,max:10},{id:'lightweight',min:1,max:10},{id:'morning',min:1,max:10},
-    {id:'clean',min:1,max:10},{id:'messy_tonight',min:1,max:10},{id:'cry_tonight',min:1,max:10},
-    {id:'arrested',min:0,max:100}
-  ];
-  scaleFields.forEach(f=>{
-    const cid=f.card||f.id;
-    const val=a[f.id];
-    const valEl=document.getElementById('sc-'+cid);
-    const barEl=document.getElementById('sb-'+cid);
-    if(val!==undefined){
-      if(valEl) valEl.textContent=f.id==='arrested'?val+'%':val;
-      if(barEl) barEl.style.width=Math.round(((val-f.min)/(f.max-f.min))*100)+'%';
-    }
+  const compassCanvas=document.getElementById('compassChart');
+  const ctx=compassCanvas.getContext('2d');
+  compassCanvas.width=compassCanvas.offsetWidth||280;
+  compassCanvas.height=120;
+  const w=compassCanvas.width,h=compassCanvas.height,cx=w/2,cy=h/2;
+  ctx.fillStyle='#161616';ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='#2a2a2a';ctx.lineWidth=0.5;
+  ctx.beginPath();ctx.moveTo(cx,8);ctx.lineTo(cx,h-8);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(8,cy);ctx.lineTo(w-8,cy);ctx.stroke();
+  ctx.fillStyle='#333';ctx.font='7px DM Mono,monospace';ctx.textAlign='center';
+  ctx.fillText('AUTH',cx,14);ctx.fillText('LIB',cx,h-3);
+  ctx.textAlign='left';ctx.fillText('LEFT',10,cy+3);
+  ctx.textAlign='right';ctx.fillText('RIGHT',w-10,cy+3);
+  const compassMap={'Auth-Left':{x:-0.6,y:-0.6},'Auth-Right':{x:0.6,y:-0.6},'Lib-Left':{x:-0.6,y:0.6},'Lib-Right':{x:0.6,y:0.6},'Dead centre':{x:0,y:0},'No idea':{x:0,y:0}};
+  const pos=compassMap[a.compass]||{x:0,y:0};
+  const dotX=cx+pos.x*(w/2-16),dotY=cy+pos.y*(h/2-16);
+  ctx.beginPath();ctx.arc(dotX,dotY,6,0,Math.PI*2);ctx.fillStyle='#D4A017';ctx.fill();
+  if(a.compass){ctx.fillStyle='#D4A017';ctx.font='7px DM Mono,monospace';ctx.textAlign='left';ctx.fillText(a.compass,dotX+10,dotY+3);}
+
+  const scaleLabels=['Woke','Eat Rich','ADHD','Narc','Mach','Psych','EQ','Heavywt','Clean','Messy','Cry'];
+  const scaleData=[a.woke||0,a.eatrich||0,a.adhd||0,a.dark_narc||0,a.dark_mach||0,a.dark_psy||0,a.eq||0,a.lightweight||0,a.clean||0,a.messy_tonight||0,a.cry_tonight||0];
+  const scaleColors=['#D4A017','#0F6E56','#D4A017','#D4A017','#D4A017','#7a1f1f','#0F6E56','#0F6E56','#0F6E56','#7a1f1f','#D4A017'];
+  scalesChartInst=new Chart(document.getElementById('scalesChart'),{
+    type:'bar',
+    data:{labels:scaleLabels,datasets:[{data:scaleData,backgroundColor:scaleColors,borderWidth:0,borderRadius:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'/10'}}},scales:{x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#484848',font:{size:8}},border:{color:'#2a2a2a'}},y:{min:0,max:10,grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#484848',stepSize:5},border:{color:'#2a2a2a'}}}}
   });
 }
 
@@ -356,37 +460,25 @@ function startQuiz(){if(!state.name.trim()){alert("Enter your name first!");retu
 function setScale(id,input){const val=+input.value;state.answers[id]=val;const lbl=document.getElementById('sv_'+id);if(lbl)lbl.textContent=val+(id==="arrested"?"%":"");}
 function setChip(id,val,el){state.answers[id]=val;el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');}
 function setText(id,val){state.answers[id]=val;}
-
 function next(){
-  if(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1){
-    state.screen="sheet";render();return;
-  }
-  if(state.question<sections[state.section].questions.length-1){state.question++;}
-  else{state.section++;state.question=0;}
+  if(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1){state.screen="sheet";render();return;}
+  if(state.question<sections[state.section].questions.length-1){state.question++;}else{state.section++;state.question=0;}
   render();window.scrollTo(0,0);
 }
 function prev(){
-  if(state.question>0){state.question--;}
-  else if(state.section>0){state.section--;state.question=sections[state.section].questions.length-1;}
+  if(state.question>0){state.question--;}else if(state.section>0){state.section--;state.question=sections[state.section].questions.length-1;}
   render();window.scrollTo(0,0);
 }
-
 function copySheet(){
   let text=`=== ${state.name.toUpperCase()} — BUCKS STAT SHEET ===\n\n`;
-  sections.forEach(sec=>{
-    text+=`[ ${sec.label} ]\n`;
-    sec.questions.forEach(q=>{
-      const val=state.answers[q.id];
-      if(val===undefined||val===null||val==='')return;
-      text+=`${q.q}: ${val}${q.id==='arrested'?'%':''}\n`;
-    });
-    text+='\n';
-  });
-  navigator.clipboard.writeText(text).then(()=>alert("Copied! Paste into WhatsApp or Notes.")).catch(()=>alert("Copy failed — screenshot it instead!"));
+  sections.forEach(sec=>{text+=`[ ${sec.label} ]\n`;sec.questions.forEach(q=>{const val=state.answers[q.id];if(val===undefined||val===null||val==='')return;text+=`${q.q}: ${val}${q.id==='arrested'?'%':''}\n`;});text+='\n';});
+  navigator.clipboard.writeText(text).then(()=>alert("Copied!")).catch(()=>alert("Copy failed — screenshot it instead!"));
 }
-
-function restart(){state={screen:"name",name:"",section:0,question:0,answers:{}};render();window.scrollTo(0,0);}
-
+function restart(){
+  if(radarChartInst){radarChartInst.destroy();radarChartInst=null;}
+  if(scalesChartInst){scalesChartInst.destroy();scalesChartInst=null;}
+  state={screen:"name",name:"",section:0,question:0,answers:{}};render();window.scrollTo(0,0);
+}
 render();
 </script>
 </body>
