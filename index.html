@@ -476,12 +476,56 @@ function buildCharts(a){
   });
 }
 
+// ── GOOGLE SHEETS ──────────────────────────────────────────
+// Paste your Google Apps Script Web App URL below after deploying
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwRAQzGCMFc42CUqAnA4cvF4uN87nErhsWQCLRvTScjLERN0nQTX6jzAbjXOaY7MOk0/exec';
+
+function submitToSheet(){
+  if(!SHEET_URL||SHEET_URL==='YOUR_APPS_SCRIPT_URL_HERE') return;
+  const a=state.answers;
+  const payload={
+    name:state.name,
+    timestamp:new Date().toISOString(),
+    mbti:a.mbti||'',
+    hp:a.hp||'',
+    adhd:a.adhd||'',
+    narcissism:a.dark_narc||'',
+    machiavellianism:a.dark_mach||'',
+    psychopathy:a.dark_psy||'',
+    eq:a.eq||'',
+    attachment:a.attachment||'',
+    compass:a.compass||'',
+    prochoice:a.prochoice||'',
+    death_penalty:a.death_pen||'',
+    drugs:a.drugs||'',
+    age_of_consent:a.aoc||'',
+    immigration:a.immigration||'',
+    capital_punishment_paedos:a.paedo||'',
+    euthanasia:a.euthanasia||'',
+    gone_woke:a.woke||'',
+    commie_or_fascist:a.commfasc||'',
+    trolley_problem:a.trolley||'',
+    eat_the_rich:a.eatrich||'',
+    grass_a_friend:a.turnin||'',
+    cancel_culture:a.cancel||'',
+    lightweight:a.lightweight||'',
+    night_owl:a.morning||'',
+    cleanliness:a.clean||'',
+    messy_tonight:a.messy_tonight||'',
+    cry_tonight:a.cry_tonight||'',
+    arrest_pct:a.arrested||'',
+    favourite_film:a.film||''
+  };
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify(payload)}).catch(()=>{});
+}
+// ───────────────────────────────────────────────────────────
+
 function startQuiz(){if(!state.name.trim()){alert("Enter your name first!");return;}state.screen="quiz";render();}
 function setScale(id,input){const val=+input.value;state.answers[id]=val;const lbl=document.getElementById('sv_'+id);if(lbl)lbl.textContent=val+(id==="arrested"?"%":"");}
 function setChip(id,val,el){state.answers[id]=val;el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');}
 function setText(id,val){state.answers[id]=val;}
 function next(){
-  if(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1){state.screen="sheet";render();return;}
+  if(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1){state.screen="sheet";submitToSheet();render();return;}
   if(state.question<sections[state.section].questions.length-1){state.question++;}else{state.section++;state.question=0;}
   render();window.scrollTo(0,0);
 }
