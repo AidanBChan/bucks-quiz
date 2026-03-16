@@ -120,6 +120,28 @@ input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e
   .no-chart-fallback{display:block!important}
 }
 .no-chart-fallback{display:none}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  #statSheet{padding:12px 10px 48px}
+  .dc-name{font-size:28px!important}
+  .dc-sub{font-size:8px}
+  .dc-badge{font-size:10px;padding:4px 8px}
+  .dc-row{gap:6px;margin-bottom:6px}
+  .dc-r4{grid-template-columns:1fr 1fr}
+  .dc-r3{grid-template-columns:1fr 1fr}
+  .dc-r25{grid-template-columns:1fr}
+  .panel{padding:9px 10px}
+  .pt{font-size:8px;margin-bottom:5px}
+  .pbig{font-size:26px}
+  .pbig-sm{font-size:16px}
+  .blbl{width:70px;font-size:7px}
+  .bnum{font-size:7px}
+  .olbl{font-size:7px}
+  .pchip,.pchip-n{font-size:9px;padding:2px 5px}
+  .chart-wrap canvas{max-height:160px}
+  .sheet-actions{padding:0 2px}
+}
 </style>
 </head>
 <body>
@@ -227,7 +249,6 @@ input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e
         <div class="orow"><div class="olbl">Immigration</div><div class="pchip" id="dc-immigration">—</div></div>
         <div class="orow"><div class="olbl">Age of consent</div><div class="pchip-n" id="dc-aoc">—</div></div>
         <div class="orow"><div class="olbl">Cancel culture</div><div class="pchip-n" id="dc-cancel">—</div></div>
-        <div class="orow"><div class="olbl">Would you cheat?</div><div class="pchip-n" id="dc-cheat">—</div></div>
         <div class="orow"><div class="olbl">Grass a friend?</div><div class="pchip-n" id="dc-turnin">—</div></div>
       </div>
     </div>
@@ -301,7 +322,6 @@ const sections=[
     {id:"commfasc",type:"chips",q:"Gun to your head — Communism or Fascism?",opts:["Communism","Fascism","I'd take the bullet"]},
     {id:"trolley",type:"chips",q:"Trolley problem — do you push the fat man?",opts:["Yes, push","No","Depends on who it is"]},
     {id:"eatrich",type:"scale",q:"Eat the rich",sub:"1 = capitalism is fine, 10 = guillotine time",min:1,max:10,def:5,lo:"Free market",hi:"Guillotine"},
-    {id:"cheat",type:"chips",q:"Would you cheat if you'd never get caught?",opts:["Yes","No","Depends"]},
     {id:"turnin",type:"chips",q:"Would you turn in a friend for a serious crime?",opts:["Yes","No","Depends"]},
     {id:"cancel",type:"chips",q:"Cancel culture",opts:["Necessary","Gone too far","Doesn't exist"]},
   ]},
@@ -380,7 +400,7 @@ function chip(id,val){const el=document.getElementById('dc-'+id);if(el)el.textCo
 function populateSheet(){
   const a=state.answers;
   document.getElementById('dc-name').textContent=state.name||'???';
-  ['mbti','hp','attachment','film','death_pen','prochoice','euthanasia','paedo','commfasc','trolley','drugs','immigration','aoc','cancel','cheat','turnin'].forEach(id=>chip(id,a[id]));
+  ['mbti','hp','attachment','film','death_pen','prochoice','euthanasia','paedo','commfasc','trolley','drugs','immigration','aoc','cancel','turnin'].forEach(id=>chip(id,a[id]));
   document.getElementById('dc-compass-fallback').textContent=a.compass||'—';
 
   if(a.dark_narc!==undefined)bar('narc',a.dark_narc,1,10);
