@@ -82,19 +82,28 @@
   .hint{font-size:12px;color:#555;text-align:center;margin-top:4px;font-family:'DM Mono',monospace}
 
   @media print{
+    @page{size:A4 portrait;margin:8mm}
+    html,body{height:100%;width:100%}
     #quizApp{display:none!important}
-    #statSheet{display:flex!important;background:#fff;padding:0}
+    #statSheet{display:block!important;background:#fff;padding:0;min-height:unset}
     .sheet-intro,.sheet-actions,.hint{display:none!important}
-    .card{border:1px solid #ccc;background:#fff;max-width:100%;border-radius:0}
-    .card-header{background:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .section-header{background:#f5f5f5!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .stat{background:#fff!important;border-color:#eee!important}
-    .stat-label{color:#999!important}
-    .stat-value{color:#111!important}
+    .card{border:1px solid #ccc;background:#fff;max-width:100%;border-radius:0;width:100%}
+    .card-header{background:#111!important;padding:8px 12px 7px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card-name{font-size:26px!important}
+    .mystery-badge{font-size:9px!important;padding:2px 7px!important}
+    .card-tag{font-size:8px!important}
+    .section-header{background:#f5f5f5!important;padding:4px 12px 3px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .section-title{font-size:9px!important}
+    .stat{background:#fff!important;border-color:#eee!important;padding:5px 12px!important}
+    .stat-label{color:#999!important;font-size:7px!important;margin-bottom:2px!important}
+    .stat-value{color:#111!important;font-size:10px!important}
     .stat-value.gold{color:#b8870f!important}
-    .bar-fill{background:#b8870f!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .bar-wrap{margin-top:3px!important;height:2px!important}
+    .bar-fill{background:#b8870f!important;height:2px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .bar-wrap{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .card-footer{background:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card-footer{background:#111!important;padding:6px 12px!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .footer-text{font-size:7px!important}
+    .dot{width:4px!important;height:4px!important}
   }
 </style>
 </head>
