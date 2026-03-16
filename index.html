@@ -13,13 +13,12 @@
 
   .header{background:#111;color:#fff;padding:20px 20px 16px;text-align:center}
   .header h1{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--gold);line-height:1}
-  .header p{font-size:13px;color:#aaa;margin-top:4px}
   .progress-bar{height:3px;background:#333;margin-top:14px}
   .progress-fill{height:3px;background:var(--gold);transition:width 0.4s ease}
   .progress-text{font-size:11px;color:#888;margin-top:6px}
   .section-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:20px 20px 8px;background:#111}
 
-  .q-card{background:#fff;border-bottom:0.5px solid #e5e5e5;padding:20px 20px}
+  .q-card{background:#fff;border-bottom:0.5px solid #e5e5e5;padding:20px}
   .q-title{font-size:16px;font-weight:500;color:#111;margin-bottom:14px;line-height:1.4}
   .q-sub{font-size:12px;color:#888;margin-top:-10px;margin-bottom:14px}
 
@@ -107,19 +106,15 @@ const sections = [
       {id:"lightweight",type:"scale",q:"Lightweight scale",sub:"1 = one pint and you're gone, 10 = iron liver",min:1,max:10,def:5,lo:"Lightweight",hi:"Heavyweight"},
       {id:"morning",type:"scale",q:"Morning person or night owl?",min:1,max:10,def:5,lo:"Up at 5am",hi:"Sleeps at 5am"},
       {id:"clean",type:"scale",q:"Cleanliness",min:1,max:10,def:5,lo:"Total neat freak",hi:"Lives in filth"},
-      {id:"delusional",type:"scale",q:"Looks delusion score",sub:"How inflated is your self-rating vs reality?",min:1,max:10,def:5,lo:"Self-aware",hi:"Deeply delusional"},
-      {id:"settle",type:"scale",q:"Commitment scale",min:1,max:10,def:5,lo:"Married by 25",hi:"Never settling"},
-      {id:"therapy",type:"chips",q:"Therapy",opts:["Currently in it","Done it","Never","Would never"]},
       {id:"messy_tonight",type:"scale",q:"How messy will you get tonight?",min:1,max:10,def:7,lo:"2 pints max",hi:"Absolute carnage"},
       {id:"cry_tonight",type:"scale",q:"Likelihood of crying tonight",min:1,max:10,def:3,lo:"Stone cold",hi:"Weeping by 10pm"},
-      {id:"arrested",type:"scale",q:"% chance you get arrested tonight",min:0,max:100,def:5,lo:"0%",hi:"100%",step:5},
+      {id:"arrested",type:"scale",q:"% chance you get arrested tonight",min:0,max:100,def:5,lo:"0%",hi:"100%",step:1},
     ]
   },
   {
     label: "Favourites",
     questions: [
       {id:"film",type:"text",q:"Favourite film",ph:"e.g. The Dark Knight"},
-      {id:"series",type:"text",q:"Favourite TV series",ph:"e.g. Succession"},
     ]
   }
 ];
@@ -164,7 +159,7 @@ function renderQuestion(app){
   const sec=sections[state.section];
   const ans=state.answers[q.id];
 
-  if(q.type==="scale" && ans===undefined) state.answers[q.id]=q.def;
+  if(q.type==="scale"&&ans===undefined) state.answers[q.id]=q.def;
 
   let qHTML="";
   if(q.type==="scale"){
@@ -233,7 +228,7 @@ function startQuiz(){
 }
 
 function setScale(id,input){
-  const min=+input.min,max=+input.max,val=+input.value;
+  const val=+input.value;
   state.answers[id]=val;
   const lbl=document.getElementById('sv_'+id);
   if(lbl) lbl.textContent=val+(id==="arrested"?"%":"");
