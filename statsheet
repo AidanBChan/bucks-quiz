@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bucks Stat Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#1a1a1a;font-family:'DM Sans',sans-serif;padding:24px 16px;min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:32px}
+
+  .page-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:4px;color:#555;text-align:center;margin-bottom:-16px}
+
+  .card{width:100%;max-width:420px;background:#111;border:1px solid #2a2a2a;border-radius:4px;overflow:hidden;page-break-inside:avoid}
+
+  .card-header{background:#000;padding:16px 20px 14px;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:2px solid #D4A017}
+  .card-name{font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:2px;color:#D4A017;line-height:1}
+  .card-tag{font-family:'DM Mono',monospace;font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase;padding-bottom:4px}
+  .mystery-badge{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:#000;background:#D4A017;padding:4px 10px;border-radius:2px;margin-bottom:4px}
+
+  .card-body{padding:0}
+
+  .section{border-bottom:1px solid #1e1e1e}
+  .section:last-child{border-bottom:none}
+  .section-header{padding:8px 20px 6px;background:#0a0a0a;display:flex;align-items:center;gap:8px}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:#444}
+  .section-line{flex:1;height:1px;background:#1e1e1e}
+
+  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .stat{padding:10px 20px;border-bottom:1px solid #181818;border-right:1px solid #181818}
+  .stat:nth-child(even){border-right:none}
+  .stat:nth-last-child(-n+2){border-bottom:none}
+  .stat.full{grid-column:1/-1;border-right:none}
+  .stat-label{font-family:'DM Mono',monospace;font-size:9px;color:#444;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+  .stat-value{font-family:'DM Mono',monospace;font-size:13px;color:#e8e8e8;font-weight:500}
+  .stat-value.gold{color:#D4A017}
+
+  .bar-wrap{margin-top:5px;height:3px;background:#222;border-radius:2px;width:100%}
+  .bar-fill{height:3px;background:#D4A017;border-radius:2px}
+
+  .card-footer{padding:10px 20px;background:#000;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #1e1e1e}
+  .footer-text{font-family:'DM Mono',monospace;font-size:9px;color:#333;letter-spacing:2px}
+  .dots{display:flex;gap:4px}
+  .dot{width:5px;height:5px;border-radius:50%;background:#222}
+  .dot.active{background:#D4A017}
+
+  .controls{max-width:420px;width:100%;display:flex;flex-direction:column;gap:10px}
+  .controls h3{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:#444;text-align:center}
+  .input-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .input-group{display:flex;flex-direction:column;gap:4px}
+  .input-group label{font-family:'DM Mono',monospace;font-size:9px;color:#444;letter-spacing:1px;text-transform:uppercase}
+  .input-group input,.input-group select{background:#111;border:1px solid #2a2a2a;color:#e8e8e8;padding:8px 10px;font-family:'DM Mono',monospace;font-size:12px;border-radius:2px;width:100%}
+  .input-group input:focus,.input-group select:focus{outline:none;border-color:#D4A017}
+  .input-group select option{background:#111}
+
+  @media print{
+    body{background:#fff;padding:8mm}
+    .controls,.page-title,.no-print{display:none!important}
+    .card{border:1px solid #ccc;background:#fff;max-width:100%;break-inside:avoid}
+    .card-header{background:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card-body,.section,.stat{background:#fff!important}
+    .section-header{background:#f5f5f5!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .stat-label{color:#888!important}
+    .stat-value{color:#111!important}
+    .stat-value.gold{color:#b8870f!important}
+    .bar-fill{background:#b8870f!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .bar-wrap{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .card-footer{background:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title no-print">BUCKS NIGHT — STAT SHEET PREVIEW</div>
+
+<div class="card" id="statCard">
+  <div class="card-header">
+    <div>
+      <div class="card-tag">Find this person</div>
+      <div class="card-name" id="displayName">???</div>
+    </div>
+    <div style="text-align:right">
+      <div class="mystery-badge">WHO AM I?</div>
+    </div>
+  </div>
+
+  <div class="card-body">
+
+    <div class="section">
+      <div class="section-header"><span class="section-title">Personality</span><div class="section-line"></div></div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-label">MBTI</div><div class="stat-value gold" id="s-mbti">—</div></div>
+        <div class="stat"><div class="stat-label">HP House</div><div class="stat-value gold" id="s-hp">—</div></div>
+        <div class="stat"><div class="stat-label">ADHD Scale</div><div class="stat-value" id="s-adhd">—</div><div class="bar-wrap"><div class="bar-fill" id="b-adhd" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">EQ</div><div class="stat-value" id="s-eq">—</div><div class="bar-wrap"><div class="bar-fill" id="b-eq" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Narcissism</div><div class="stat-value" id="s-narc">—</div><div class="bar-wrap"><div class="bar-fill" id="b-narc" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Machiavellianism</div><div class="stat-value" id="s-mach">—</div><div class="bar-wrap"><div class="bar-fill" id="b-mach" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Psychopathy</div><div class="stat-value" id="s-psy">—</div><div class="bar-wrap"><div class="bar-fill" id="b-psy" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Attachment</div><div class="stat-value gold" id="s-att">—</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><span class="section-title">Politics & Ethics</span><div class="section-line"></div></div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-label">Compass</div><div class="stat-value gold" id="s-compass">—</div></div>
+        <div class="stat"><div class="stat-label">Pro-Life/Choice</div><div class="stat-value gold" id="s-prochoice">—</div></div>
+        <div class="stat"><div class="stat-label">Death Penalty</div><div class="stat-value" id="s-deathpen">—</div></div>
+        <div class="stat"><div class="stat-label">Drugs</div><div class="stat-value" id="s-drugs">—</div></div>
+        <div class="stat"><div class="stat-label">Age of Consent</div><div class="stat-value" id="s-aoc">—</div></div>
+        <div class="stat"><div class="stat-label">Immigration</div><div class="stat-value" id="s-immigration">—</div></div>
+        <div class="stat"><div class="stat-label">Capital Pun. Paedos</div><div class="stat-value" id="s-paedo">—</div></div>
+        <div class="stat"><div class="stat-label">Euthanasia</div><div class="stat-value" id="s-euthanasia">—</div></div>
+        <div class="stat"><div class="stat-label">Gone Woke Scale</div><div class="stat-value" id="s-woke">—</div><div class="bar-wrap"><div class="bar-fill" id="b-woke" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Commie vs Fascist</div><div class="stat-value gold" id="s-commfasc">—</div></div>
+        <div class="stat"><div class="stat-label">Push Fat Man?</div><div class="stat-value" id="s-trolley">—</div></div>
+        <div class="stat"><div class="stat-label">Eat the Rich</div><div class="stat-value" id="s-eatrich">—</div><div class="bar-wrap"><div class="bar-fill" id="b-eatrich" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Would You Cheat?</div><div class="stat-value" id="s-cheat">—</div></div>
+        <div class="stat"><div class="stat-label">Grass a Friend?</div><div class="stat-value" id="s-turnin">—</div></div>
+        <div class="stat full"><div class="stat-label">Cancel Culture</div><div class="stat-value gold" id="s-cancel">—</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><span class="section-title">Lifestyle</span><div class="section-line"></div></div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-label">Heavyweight Scale</div><div class="stat-value" id="s-lightweight">—</div><div class="bar-wrap"><div class="bar-fill" id="b-lightweight" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Night Owl Scale</div><div class="stat-value" id="s-morning">—</div><div class="bar-wrap"><div class="bar-fill" id="b-morning" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Cleanliness</div><div class="stat-value" id="s-clean">—</div><div class="bar-wrap"><div class="bar-fill" id="b-clean" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Messiness Tonight</div><div class="stat-value" id="s-messy">—</div><div class="bar-wrap"><div class="bar-fill" id="b-messy" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Cry Rating</div><div class="stat-value" id="s-cry">—</div><div class="bar-wrap"><div class="bar-fill" id="b-cry" style="width:0%"></div></div></div>
+        <div class="stat"><div class="stat-label">Arrest %</div><div class="stat-value gold" id="s-arrested">—</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><span class="section-title">Favourites</span><div class="section-line"></div></div>
+      <div class="stats-grid">
+        <div class="stat full"><div class="stat-label">Favourite Film</div><div class="stat-value gold" id="s-film">—</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card-footer">
+    <div class="footer-text">BUCKS NIGHT 2025</div>
+    <div class="dots">
+      <div class="dot active"></div><div class="dot active"></div><div class="dot"></div>
+    </div>
+    <div class="footer-text">FIND YOUR MATCH</div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls no-print">
+  <h3>Fill in the stats</h3>
+
+  <div class="input-row">
+    <div class="input-group" style="grid-column:1/-1">
+      <label>Name (or leave ??? for mystery)</label>
+      <input type="text" id="f-name" placeholder="???" oninput="update()">
+    </div>
+  </div>
+
+  <div class="input-row">
+    <div class="input-group">
+      <label>MBTI</label>
+      <select id="f-mbti" onchange="update()">
+        <option value="">—</option>
+        <option>INTJ</option><option>INTP</option><option>ENTJ</option><option>ENTP</option>
+        <option>INFJ</option><option>INFP</option><option>ENFJ</option><option>ENFP</option>
+        <option>ISTJ</option><option>ISFJ</option><option>ESTJ</option><option>ESFJ</option>
+        <option>ISTP</option><option>ISFP</option><option>ESTP</option><option>ESFP</option>
+        <option>Not sure</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>HP House</label>
+      <select id="f-hp" onchange="update()">
+        <option value="">—</option>
+        <option>Gryffindor</option><option>Slytherin</option><option>Ravenclaw</option><option>Hufflepuff</option><option>Muggle</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="input-row">
+    <div class="input-group"><label>ADHD (1–10)</label><input type="number" id="f-adhd" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group"><label>EQ (1–10)</label><input type="number" id="f-eq" min="1" max="10" placeholder="6" oninput="update()"></div>
+    <div class="input-group"><label>Narcissism (1–10)</label><input type="number" id="f-narc" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group"><label>Machiavellianism (1–10)</label><input type="number" id="f-mach" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group"><label>Psychopathy (1–10)</label><input type="number" id="f-psy" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group">
+      <label>Attachment Style</label>
+      <select id="f-att" onchange="update()">
+        <option value="">—</option>
+        <option>Secure</option><option>Anxious</option><option>Avoidant</option><option>Fearful-avoidant</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="input-row">
+    <div class="input-group">
+      <label>Political Compass</label>
+      <select id="f-compass" onchange="update()">
+        <option value="">—</option>
+        <option>Auth-Left</option><option>Auth-Right</option><option>Lib-Left</option><option>Lib-Right</option><option>Dead centre</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Pro-life / Pro-choice</label>
+      <select id="f-prochoice" onchange="update()">
+        <option value="">—</option>
+        <option>Strongly pro-life</option><option>Leaning pro-life</option><option>It's complicated</option><option>Leaning pro-choice</option><option>Strongly pro-choice</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Death Penalty</label>
+      <select id="f-deathpen" onchange="update()">
+        <option value="">—</option><option>For</option><option>Against</option><option>Depends</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Drug Policy</label>
+      <select id="f-drugs" onchange="update()">
+        <option value="">—</option><option>Full legalisation</option><option>Decriminalisation</option><option>Keep illegal</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Age of Consent</label>
+      <select id="f-aoc" onchange="update()">
+        <option value="">—</option><option>Raise it</option><option>Keep it the same</option><option>Lower it</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Immigration</label>
+      <select id="f-immigration" onchange="update()">
+        <option value="">—</option><option>Open borders</option><option>Controlled</option><option>Closed</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Capital Pun. Paedos</label>
+      <select id="f-paedo" onchange="update()">
+        <option value="">—</option><option>Yes</option><option>No</option><option>Depends</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Euthanasia</label>
+      <select id="f-euthanasia" onchange="update()">
+        <option value="">—</option><option>Fully legalise</option><option>Tightly regulated only</option><option>Against</option>
+      </select>
+    </div>
+    <div class="input-group"><label>Gone Woke (1–10)</label><input type="number" id="f-woke" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group">
+      <label>Commie vs Fascist</label>
+      <select id="f-commfasc" onchange="update()">
+        <option value="">—</option><option>Communism</option><option>Fascism</option><option>I'd take the bullet</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Push Fat Man?</label>
+      <select id="f-trolley" onchange="update()">
+        <option value="">—</option><option>Yes, push</option><option>No</option><option>Depends on who it is</option>
+      </select>
+    </div>
+    <div class="input-group"><label>Eat the Rich (1–10)</label><input type="number" id="f-eatrich" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group">
+      <label>Would You Cheat?</label>
+      <select id="f-cheat" onchange="update()">
+        <option value="">—</option><option>Yes</option><option>No</option><option>Depends</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Grass a Friend?</label>
+      <select id="f-turnin" onchange="update()">
+        <option value="">—</option><option>Yes</option><option>No</option><option>Depends</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label>Cancel Culture</label>
+      <select id="f-cancel" onchange="update()">
+        <option value="">—</option><option>Necessary</option><option>Gone too far</option><option>Doesn't exist</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="input-row">
+    <div class="input-group"><label>Heavyweight (1–10)</label><input type="number" id="f-lightweight" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group"><label>Night Owl (1–10)</label><input type="number" id="f-morning" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group"><label>Cleanliness (1–10)</label><input type="number" id="f-clean" min="1" max="10" placeholder="5" oninput="update()"></div>
+    <div class="input-group"><label>Messy Tonight (1–10)</label><input type="number" id="f-messy" min="1" max="10" placeholder="7" oninput="update()"></div>
+    <div class="input-group"><label>Cry Rating (1–10)</label><input type="number" id="f-cry" min="1" max="10" placeholder="3" oninput="update()"></div>
+    <div class="input-group"><label>Arrest % (0–100)</label><input type="number" id="f-arrested" min="0" max="100" placeholder="5" oninput="update()"></div>
+  </div>
+
+  <div class="input-row">
+    <div class="input-group" style="grid-column:1/-1">
+      <label>Favourite Film</label>
+      <input type="text" id="f-film" placeholder="e.g. The Dark Knight" oninput="update()">
+    </div>
+  </div>
+
+  <button onclick="window.print()" style="width:100%;padding:14px;background:#D4A017;border:none;color:#000;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;border-radius:2px;margin-top:8px">PRINT / SAVE AS PDF</button>
+</div>
+
+<script>
+function set(id,val){const el=document.getElementById('s-'+id);if(el&&val)el.textContent=val;else if(el)el.textContent='—';}
+function bar(id,val,min,max){const el=document.getElementById('b-'+id);if(el&&val){const pct=Math.round(((val-min)/(max-min))*100);el.style.width=pct+'%';}else if(el){el.style.width='0%';}}
+function num(id,min,max){
+  const v=document.getElementById('f-'+id)?.value;
+  const n=parseInt(v);
+  if(!isNaN(n)&&n>=min&&n<=max){set(id,String(n));bar(id,n,min,max);}
+  else{set(id,null);bar(id,null,min,max);}
+}
+function sel(id){const v=document.getElementById('f-'+id)?.value;set(id,v||null);}
+function update(){
+  const name=document.getElementById('f-name')?.value.trim();
+  document.getElementById('displayName').textContent=name||'???';
+  sel('mbti');sel('hp');sel('att');sel('compass');sel('prochoice');
+  sel('deathpen');sel('drugs');sel('aoc');sel('immigration');sel('paedo');
+  sel('euthanasia');sel('commfasc');sel('trolley');sel('cheat');sel('turnin');sel('cancel');
+  const film=document.getElementById('f-film')?.value;set('film',film||null);
+  num('adhd',1,10);num('eq',1,10);num('narc',1,10);num('mach',1,10);num('psy',1,10);
+  num('woke',1,10);num('eatrich',1,10);
+  num('lightweight',1,10);num('morning',1,10);num('clean',1,10);num('messy',1,10);num('cry',1,10);
+  const arr=parseInt(document.getElementById('f-arrested')?.value);
+  if(!isNaN(arr)&&arr>=0&&arr<=100){set('arrested',arr+'%');bar('arrested',arr,0,100);}
+  else{set('arrested',null);bar('arrested',null,0,100);}
+}
+</script>
+</body>
+</html>
