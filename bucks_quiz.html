@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bucks Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--gold:#D4A017;--dark:#111}
+  body{font-family:'DM Sans',sans-serif;background:#f5f4f0;min-height:100vh}
+  #app{max-width:480px;margin:0 auto;background:#fff;min-height:100vh;padding-bottom:100px}
+
+  .header{background:#111;color:#fff;padding:20px 20px 16px;text-align:center}
+  .header h1{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--gold);line-height:1}
+  .header p{font-size:13px;color:#aaa;margin-top:4px}
+  .progress-bar{height:3px;background:#333;margin-top:14px}
+  .progress-fill{height:3px;background:var(--gold);transition:width 0.4s ease}
+  .progress-text{font-size:11px;color:#888;margin-top:6px}
+  .section-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:20px 20px 8px;background:#111}
+
+  .q-card{background:#fff;border-bottom:0.5px solid #e5e5e5;padding:20px 20px}
+  .q-title{font-size:16px;font-weight:500;color:#111;margin-bottom:14px;line-height:1.4}
+  .q-sub{font-size:12px;color:#888;margin-top:-10px;margin-bottom:14px}
+
+  .scale-wrap{padding:4px 0 8px}
+  .scale-val{text-align:center;font-size:22px;font-weight:500;color:#111;margin-bottom:8px}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;background:transparent;height:28px;cursor:pointer;display:block}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,0.3);margin-top:-11px}
+  input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:4px;background:#e5e5e5}
+  input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,0.3)}
+  input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e5e5}
+  .scale-labels{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-top:6px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{padding:10px 16px;border-radius:24px;border:1.5px solid #ddd;font-size:13px;font-weight:500;cursor:pointer;color:#111;background:#fff;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+  .chip.selected{background:#111;color:var(--gold);border-color:#111}
+
+  .text-input{width:100%;border:1.5px solid #ddd;border-radius:12px;padding:12px 16px;font-size:15px;color:#111;background:#fff;font-family:'DM Sans',sans-serif}
+  .text-input:focus{outline:none;border-color:var(--gold)}
+
+  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 20px 28px;background:#fff;border-top:0.5px solid #e5e5e5;display:flex;gap:10px}
+  .btn-prev{flex:1;padding:15px;border-radius:14px;border:1.5px solid #ddd;background:transparent;font-size:15px;font-weight:500;cursor:pointer;color:#888;font-family:'DM Sans',sans-serif}
+  .btn-prev:disabled{opacity:0.3}
+  .btn-next{flex:2;padding:15px;border-radius:14px;border:none;background:#111;color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;font-size:20px;cursor:pointer}
+
+  .name-screen{padding:40px 24px;text-align:center}
+  .name-screen p{color:#888;font-size:14px;margin-bottom:28px;line-height:1.6}
+  .name-input-big{width:100%;border:2px solid #ddd;border-radius:14px;padding:16px 18px;font-size:18px;color:#111;background:#fff;font-family:'DM Sans',sans-serif;text-align:center}
+  .name-input-big:focus{outline:none;border-color:var(--gold)}
+  .start-btn{width:100%;margin-top:20px;padding:18px;border-radius:14px;border:none;background:#111;color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;cursor:pointer}
+
+  .results-screen{padding:24px 20px}
+  .done-badge{display:inline-block;background:#111;color:var(--gold);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;margin-bottom:16px}
+  .results-screen h2{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#111;margin-bottom:4px}
+  .results-screen .sub{color:#888;font-size:14px;margin-bottom:20px}
+  .result-section-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:20px 0 10px}
+  .result-item{background:#fff;border:0.5px solid #e5e5e5;border-radius:12px;padding:12px 16px;margin-bottom:8px}
+  .result-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+  .result-val{font-size:15px;font-weight:500;color:#111}
+  .copy-btn{width:100%;margin-top:16px;padding:16px;border-radius:14px;border:2px solid #111;background:transparent;color:#111;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer}
+  .restart-btn{width:100%;margin-top:10px;padding:14px;border-radius:14px;border:none;background:#f5f4f0;color:#888;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const sections = [
+  {
+    label: "Personality",
+    questions: [
+      {id:"mbti",type:"chips",q:"What's your MBTI type?",opts:["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP","Not sure"]},
+      {id:"hp",type:"chips",q:"Harry Potter house",opts:["Gryffindor","Slytherin","Ravenclaw","Hufflepuff","Muggle (haven't watched)"]},
+      {id:"adhd",type:"scale",q:"ADHD scale",sub:"1 = zen monk, 10 = 47 tabs open",min:1,max:10,def:5,lo:"Focused",hi:"ADHD"},
+      {id:"dark_narc",type:"scale",q:"Dark Triad — Narcissism",sub:"How special do you think you are?",min:1,max:10,def:5,lo:"Humble",hi:"God complex"},
+      {id:"dark_mach",type:"scale",q:"Dark Triad — Machiavellianism",sub:"Will you manipulate to get what you want?",min:1,max:10,def:5,lo:"Transparent",hi:"Puppet master"},
+      {id:"dark_psy",type:"scale",q:"Dark Triad — Psychopathy",sub:"How much do you actually care about others?",min:1,max:10,def:5,lo:"Empath",hi:"Psychopath"},
+      {id:"eq",type:"scale",q:"Emotional intelligence (EQ)",sub:"Self-rated",min:1,max:10,def:6,lo:"Brick wall",hi:"Therapist"},
+      {id:"attachment",type:"chips",q:"Attachment style",opts:["Secure","Anxious","Avoidant","Fearful-avoidant","What's that?"]},
+    ]
+  },
+  {
+    label: "Politics & Ethics",
+    questions: [
+      {id:"compass",type:"chips",q:"Political compass",opts:["Auth-Left","Auth-Right","Lib-Left","Lib-Right","Dead centre","No idea"]},
+      {id:"prochoice",type:"chips",q:"Pro-life or pro-choice?",opts:["Strongly pro-life","Leaning pro-life","It's complicated","Leaning pro-choice","Strongly pro-choice"]},
+      {id:"death_pen",type:"chips",q:"Death penalty",opts:["For","Against","Depends"]},
+      {id:"drugs",type:"chips",q:"Drug policy",opts:["Full legalisation","Decriminalisation","Keep illegal"]},
+      {id:"aoc",type:"chips",q:"Age of consent — should it change?",opts:["Raise it","Keep it the same","Lower it"]},
+      {id:"immigration",type:"chips",q:"Immigration policy",opts:["Open borders","Controlled","Closed"]},
+      {id:"paedo",type:"chips",q:"Capital punishment for paedophiles?",opts:["Yes","No","Depends"]},
+      {id:"euthanasia",type:"chips",q:"Euthanasia",opts:["Fully legalise","Tightly regulated only","Against"]},
+      {id:"woke",type:"scale",q:"Gone woke or gone broke?",sub:"How far has woke/DEI culture gone too far?",min:1,max:10,def:5,lo:"It's fine",hi:"Way too far"},
+      {id:"commfasc",type:"chips",q:"Gun to your head — Communism or Fascism?",opts:["Communism","Fascism","I'd take the bullet"]},
+      {id:"trolley",type:"chips",q:"Trolley problem — do you push the fat man?",opts:["Yes, push","No","Depends on who it is"]},
+      {id:"eatrich",type:"scale",q:"Eat the rich",sub:"1 = capitalism is fine, 10 = guillotine time",min:1,max:10,def:5,lo:"Free market",hi:"Guillotine"},
+      {id:"cheat",type:"chips",q:"Would you cheat if you'd never get caught?",opts:["Yes","No","Depends"]},
+      {id:"turnin",type:"chips",q:"Would you turn in a friend for a serious crime?",opts:["Yes","No","Depends"]},
+      {id:"cancel",type:"chips",q:"Cancel culture",opts:["Necessary","Gone too far","Doesn't exist"]},
+    ]
+  },
+  {
+    label: "Lifestyle",
+    questions: [
+      {id:"bodycount",type:"chips",q:"Body count bracket",opts:["0","1–5","6–15","16–30","30+","A gentleman never tells"]},
+      {id:"lightweight",type:"scale",q:"Lightweight scale",sub:"1 = one pint and you're gone, 10 = iron liver",min:1,max:10,def:5,lo:"Lightweight",hi:"Heavyweight"},
+      {id:"morning",type:"scale",q:"Morning person or night owl?",min:1,max:10,def:5,lo:"Up at 5am",hi:"Sleeps at 5am"},
+      {id:"clean",type:"scale",q:"Cleanliness",min:1,max:10,def:5,lo:"Total neat freak",hi:"Lives in filth"},
+      {id:"delusional",type:"scale",q:"Looks delusion score",sub:"How inflated is your self-rating vs reality?",min:1,max:10,def:5,lo:"Self-aware",hi:"Deeply delusional"},
+      {id:"settle",type:"scale",q:"Commitment scale",min:1,max:10,def:5,lo:"Married by 25",hi:"Never settling"},
+      {id:"therapy",type:"chips",q:"Therapy",opts:["Currently in it","Done it","Never","Would never"]},
+      {id:"messy_tonight",type:"scale",q:"How messy will you get tonight?",min:1,max:10,def:7,lo:"2 pints max",hi:"Absolute carnage"},
+      {id:"cry_tonight",type:"scale",q:"Likelihood of crying tonight",min:1,max:10,def:3,lo:"Stone cold",hi:"Weeping by 10pm"},
+      {id:"arrested",type:"scale",q:"% chance you get arrested tonight",min:0,max:100,def:5,lo:"0%",hi:"100%",step:5},
+    ]
+  },
+  {
+    label: "Favourites",
+    questions: [
+      {id:"film",type:"text",q:"Favourite film",ph:"e.g. The Dark Knight"},
+      {id:"series",type:"text",q:"Favourite TV series",ph:"e.g. Succession"},
+    ]
+  }
+];
+
+let state = {screen:"name",name:"",section:0,question:0,answers:{}};
+
+function totalQuestions(){return sections.reduce((a,s)=>a+s.questions.length,0)}
+function flatIndex(){
+  let i=0;
+  for(let s=0;s<state.section;s++) i+=sections[s].questions.length;
+  return i+state.question;
+}
+function currentQ(){return sections[state.section].questions[state.question]}
+
+function render(){
+  const app=document.getElementById('app');
+  if(state.screen==="name"){renderName(app);return;}
+  if(state.screen==="results"){renderResults(app);return;}
+  renderQuestion(app);
+}
+
+function renderName(app){
+  app.innerHTML=`
+  <div style="background:#111;padding:48px 24px 40px;text-align:center">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--gold);letter-spacing:3px;line-height:1">BUCKS QUIZ</div>
+    <div style="color:#aaa;font-size:14px;margin-top:8px">Who are you, really?</div>
+  </div>
+  <div class="name-screen">
+    <p>Fill this in before the big night. Your answers will be used to create a stat sheet — and someone else will have to find you based on your profile.</p>
+    <input class="name-input-big" id="nameInput" type="text" placeholder="Your name" autocomplete="off" value="${state.name}" />
+    <button class="start-btn" onclick="startQuiz()">LET'S GO</button>
+  </div>`;
+  document.getElementById('nameInput').addEventListener('input',e=>state.name=e.target.value);
+  document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')startQuiz();});
+}
+
+function renderQuestion(app){
+  const q=currentQ();
+  const fi=flatIndex();
+  const total=totalQuestions();
+  const pct=Math.round((fi/total)*100);
+  const sec=sections[state.section];
+  const ans=state.answers[q.id];
+
+  if(q.type==="scale" && ans===undefined) state.answers[q.id]=q.def;
+
+  let qHTML="";
+  if(q.type==="scale"){
+    const val=ans!==undefined?ans:q.def;
+    const min=q.min||1;const max=q.max||10;
+    qHTML=`
+    <div class="scale-wrap">
+      <div class="scale-val" id="sv_${q.id}">${val}${q.id==="arrested"?"%":""}</div>
+      <input type="range" min="${min}" max="${max}" step="${q.step||1}" value="${val}" oninput="setScale('${q.id}',this)">
+      <div class="scale-labels"><span>${q.lo}</span><span>${q.hi}</span></div>
+    </div>`;
+  } else if(q.type==="chips"){
+    qHTML=`<div class="chips">${q.opts.map(o=>`<div class="chip${ans===o?" selected":""}" onclick="setChip('${q.id}','${o.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}',this)">${o}</div>`).join("")}</div>`;
+  } else if(q.type==="text"){
+    qHTML=`<input class="text-input" type="text" placeholder="${q.ph||""}" value="${ans||""}" oninput="setText('${q.id}',this.value)" autocomplete="off">`;
+  }
+
+  const isLast=(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1);
+  const isFirst=(state.section===0&&state.question===0);
+
+  app.innerHTML=`
+  <div class="header">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--gold)">${esc(state.name.toUpperCase())}</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-text">${fi+1} of ${total}</div>
+  </div>
+  <div class="section-label">${sec.label}</div>
+  <div class="q-card">
+    <div class="q-title">${q.q}</div>
+    ${q.sub?`<div class="q-sub">${q.sub}</div>`:""}
+    ${qHTML}
+  </div>
+  <div class="nav">
+    <button class="btn-prev" onclick="prev()" ${isFirst?"disabled":""}>Back</button>
+    <button class="btn-next" onclick="next()">${isLast?"FINISH ✓":"NEXT →"}</button>
+  </div>`;
+}
+
+function renderResults(app){
+  let html=`<div class="results-screen">
+  <div class="done-badge">Done!</div>
+  <h2>${esc(state.name)}'s stats</h2>
+  <p class="sub">Screenshot this or copy it to share with the group.</p>`;
+
+  sections.forEach(sec=>{
+    html+=`<div class="result-section-label">${sec.label}</div>`;
+    sec.questions.forEach(q=>{
+      const val=state.answers[q.id];
+      if(val===undefined||val===null||val==="") return;
+      html+=`<div class="result-item"><div class="result-label">${q.q}</div><div class="result-val">${esc(String(val))}${q.id==="arrested"?"%":""}</div></div>`;
+    });
+  });
+
+  html+=`<button class="copy-btn" onclick="copyResults()">Copy results as text</button>`;
+  html+=`<button class="restart-btn" onclick="restart()">Start again</button>`;
+  html+=`</div>`;
+  app.innerHTML=html;
+  window.scrollTo(0,0);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function startQuiz(){
+  if(!state.name.trim()){alert("Enter your name first!");return;}
+  state.screen="quiz";render();
+}
+
+function setScale(id,input){
+  const min=+input.min,max=+input.max,val=+input.value;
+  state.answers[id]=val;
+  const lbl=document.getElementById('sv_'+id);
+  if(lbl) lbl.textContent=val+(id==="arrested"?"%":"");
+}
+
+function setChip(id,val,el){
+  state.answers[id]=val;
+  el.closest('.chips').querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function setText(id,val){state.answers[id]=val;}
+
+function next(){
+  if(state.section===sections.length-1&&state.question===sections[state.section].questions.length-1){
+    state.screen="results";render();return;
+  }
+  if(state.question<sections[state.section].questions.length-1){state.question++;}
+  else{state.section++;state.question=0;}
+  render();window.scrollTo(0,0);
+}
+
+function prev(){
+  if(state.question>0){state.question--;}
+  else if(state.section>0){state.section--;state.question=sections[state.section].questions.length-1;}
+  render();window.scrollTo(0,0);
+}
+
+function copyResults(){
+  let text=`=== ${state.name.toUpperCase()} — BUCKS QUIZ ===\n\n`;
+  sections.forEach(sec=>{
+    text+=`[ ${sec.label} ]\n`;
+    sec.questions.forEach(q=>{
+      const val=state.answers[q.id];
+      if(val===undefined||val===null||val==="") return;
+      text+=`${q.q}: ${val}${q.id==="arrested"?"%":""}\n`;
+    });
+    text+="\n";
+  });
+  navigator.clipboard.writeText(text).then(()=>alert("Copied! Paste it into WhatsApp or Notes.")).catch(()=>alert("Copy failed — screenshot it instead!"));
+}
+
+function restart(){
+  state={screen:"name",name:"",section:0,question:0,answers:{}};
+  render();window.scrollTo(0,0);
+}
+
+render();
+</script>
+</body>
+</html>
