@@ -281,6 +281,26 @@ input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e
       </div>
     </div>
 
+    <div class="dc-row dc-r4">
+      <div class="panel">
+        <div class="pt">Weekend vibe</div>
+        <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--gold);margin-top:4px;line-height:1.3" id="dc-vibe">—</div>
+        <div class="psub" style="margin-top:4px">One word</div>
+      </div>
+      <div class="panel">
+        <div class="pt">Football position</div>
+        <div class="pbig-sm" id="dc-position">—</div>
+      </div>
+      <div class="panel">
+        <div class="pt">Music taste</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);margin-top:4px;line-height:1.3" id="dc-music">—</div>
+      </div>
+      <div class="panel">
+        <div class="pt">Drink of choice</div>
+        <div class="pbig-sm" id="dc-drink">—</div>
+      </div>
+    </div>
+
     <div class="dc-footer">
       <div class="dc-ft">BUCKS NIGHT 2025</div>
       <div class="dc-dots"><div class="dc-dot on"></div><div class="dc-dot on"></div><div class="dc-dot"></div></div>
@@ -311,19 +331,19 @@ const sections=[
   ]},
   {label:"Politics & Ethics",questions:[
     {id:"compass",type:"chips",q:"Political compass",opts:["Auth-Left","Auth-Right","Lib-Left","Lib-Right","Dead centre","No idea"]},
-    {id:"prochoice",type:"chips",q:"Pro-life or pro-choice?",opts:["Strongly pro-life","Leaning pro-life","It's complicated","Leaning pro-choice","Strongly pro-choice"]},
-    {id:"death_pen",type:"chips",q:"Death penalty",opts:["For","Against","Depends"]},
+    {id:"prochoice",type:"scale",q:"Pro-life or pro-choice?",sub:"1 = strongly pro-life, 10 = strongly pro-choice",min:1,max:10,def:5,lo:"Pro-life",hi:"Pro-choice"},
+    {id:"death_pen",type:"scale",q:"Death penalty",sub:"1 = completely against, 10 = fully for it",min:1,max:10,def:5,lo:"Against",hi:"For"},
     {id:"drugs",type:"chips",q:"Drug policy",opts:["Full legalisation","Decriminalisation","Keep illegal"]},
     {id:"aoc",type:"chips",q:"Age of consent — should it change?",opts:["Raise it","Keep it the same","Lower it"]},
-    {id:"immigration",type:"chips",q:"Immigration policy",opts:["Open borders","Controlled","Closed"]},
-    {id:"paedo",type:"chips",q:"Capital punishment for paedophiles?",opts:["Yes","No","Depends"]},
-    {id:"euthanasia",type:"chips",q:"Euthanasia",opts:["Fully legalise","Tightly regulated only","Against"]},
+    {id:"immigration",type:"scale",q:"Immigration policy",sub:"1 = open borders, 10 = closed borders",min:1,max:10,def:5,lo:"Open borders",hi:"Closed borders"},
+    {id:"paedo",type:"scale",q:"Capital punishment for paedophiles?",sub:"1 = absolutely not, 10 = bring it in immediately",min:1,max:10,def:5,lo:"Never",hi:"Yes, now"},
+    {id:"euthanasia",type:"scale",q:"Euthanasia",sub:"1 = totally against, 10 = fully legalise",min:1,max:10,def:5,lo:"Against",hi:"Fully legalise"},
     {id:"woke",type:"scale",q:"Gone woke or gone broke?",sub:"How far has woke/DEI culture gone too far?",min:1,max:10,def:5,lo:"It's fine",hi:"Way too far"},
     {id:"commfasc",type:"chips",q:"Gun to your head — Communism or Fascism?",opts:["Communism","Fascism","I'd take the bullet"]},
-    {id:"trolley",type:"chips",q:"Trolley problem — do you push the fat man?",opts:["Yes, push","No","Depends on who it is"]},
+    {id:"trolley",type:"scale",q:"Trolley problem — push the fat man?",sub:"1 = never, 10 = shove him immediately",min:1,max:10,def:5,lo:"Never",hi:"Shove him"},
     {id:"eatrich",type:"scale",q:"Eat the rich",sub:"1 = capitalism is fine, 10 = guillotine time",min:1,max:10,def:5,lo:"Free market",hi:"Guillotine"},
-    {id:"turnin",type:"chips",q:"Would you turn in a friend for a serious crime?",opts:["Yes","No","Depends"]},
-    {id:"cancel",type:"chips",q:"Cancel culture",opts:["Necessary","Gone too far","Doesn't exist"]},
+    {id:"turnin",type:"scale",q:"Would you turn in a friend for a serious crime?",sub:"1 = never, 10 = call the police immediately",min:1,max:10,def:5,lo:"Never",hi:"Dial 999"},
+    {id:"cancel",type:"scale",q:"Cancel culture",sub:"1 = necessary accountability, 10 = completely out of hand",min:1,max:10,def:5,lo:"Necessary",hi:"Out of hand"},
   ]},
   {label:"Lifestyle",questions:[
     {id:"lightweight",type:"scale",q:"Lightweight scale",sub:"1 = one pint and you're gone, 10 = iron liver",min:1,max:10,def:5,lo:"Lightweight",hi:"Heavyweight"},
@@ -332,6 +352,13 @@ const sections=[
     {id:"messy_tonight",type:"scale",q:"How messy will you get tonight?",min:1,max:10,def:7,lo:"2 pints max",hi:"Absolute carnage"},
     {id:"cry_tonight",type:"scale",q:"Likelihood of crying tonight",min:1,max:10,def:3,lo:"Stone cold",hi:"Weeping by 10pm"},
     {id:"arrested",type:"scale",q:"% chance you get arrested tonight",min:0,max:100,def:5,lo:"0%",hi:"100%",step:1},
+  ]},
+  {label:"The Weekend",questions:[
+    {id:"vibe",type:"text",q:"In one word — what vibe are you bringing this weekend?",ph:"e.g. Chaos"},
+    {id:"position",type:"chips",q:"Your position on a football team",opts:["Striker","Winger","Midfielder","Defender","Goalkeeper","Bench warmer"]},
+    {id:"sport",type:"chips",q:"Your kind of sport",opts:["Racquet sports","Track and field","Strength / lifting","Team sports","Water sports","Not sporty"]},
+    {id:"music",type:"chips",q:"Music taste — pick one",opts:["Hip-hop / R&B","House / Techno","Drum and Bass","Country","Rock / Metal","Classical","Indie / Alt","Pop","Jazz / Soul"]},
+    {id:"drink",type:"chips",q:"Drink of choice",opts:["Beer / Lager","Whiskey / Bourbon","Tequila","Gin","Vodka","Rum","Wine","I don't drink"]},
   ]},
   {label:"Favourites",questions:[
     {id:"film",type:"text",q:"Favourite film",ph:"e.g. The Dark Knight"},
@@ -400,8 +427,18 @@ function chip(id,val){const el=document.getElementById('dc-'+id);if(el)el.textCo
 function populateSheet(){
   const a=state.answers;
   document.getElementById('dc-name').textContent=state.name||'???';
-  ['mbti','hp','attachment','film','death_pen','prochoice','euthanasia','paedo','commfasc','trolley','drugs','immigration','aoc','cancel','turnin'].forEach(id=>chip(id,a[id]));
+  ['mbti','hp','attachment','film','commfasc','drugs','aoc','vibe','position','sport','music','drink'].forEach(id=>chip(id,a[id]));
   document.getElementById('dc-compass-fallback').textContent=a.compass||'—';
+
+  // ethics scales shown as number chips
+  const ethicScales=['prochoice','death_pen','immigration','paedo','euthanasia','trolley','turnin','cancel'];
+  ethicScales.forEach(id=>{
+    const el=document.getElementById('dc-'+id);
+    if(el) el.textContent=a[id]!==undefined?a[id]+'/10':'—';
+  });
+
+  // weekend text fields
+  ['vibe'].forEach(id=>{const el=document.getElementById('dc-'+id);if(el)el.textContent=a[id]||'—';});
 
   if(a.dark_narc!==undefined)bar('narc',a.dark_narc,1,10);
   if(a.dark_mach!==undefined)bar('mach',a.dark_mach,1,10);
@@ -478,7 +515,7 @@ function buildCharts(a){
 
 // ── GOOGLE SHEETS ──────────────────────────────────────────
 // Paste your Google Apps Script Web App URL below after deploying
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwRAQzGCMFc42CUqAnA4cvF4uN87nErhsWQCLRvTScjLERN0nQTX6jzAbjXOaY7MOk0/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwb2GBa7cHzKXlwjegD4Q2_eDSvQ21sWwBf03mNeAGn-HcsnWulZWZj46e3IM3oiw1QcQ/exec';
 
 function submitToSheet(){
   if(!SHEET_URL||SHEET_URL==='YOUR_APPS_SCRIPT_URL_HERE') return;
@@ -514,6 +551,11 @@ function submitToSheet(){
     messy_tonight:a.messy_tonight||'',
     cry_tonight:a.cry_tonight||'',
     arrest_pct:a.arrested||'',
+    vibe:a.vibe||'',
+    football_position:a.position||'',
+    sport_type:a.sport||'',
+    music_taste:a.music||'',
+    drink_of_choice:a.drink||'',
     favourite_film:a.film||''
   };
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify(payload)}).catch(()=>{});
