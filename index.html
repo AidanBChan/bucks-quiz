@@ -238,7 +238,6 @@ input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e
         <div class="orow"><div class="olbl">Death penalty</div><div class="pchip" id="dc-death_pen">—</div></div>
         <div class="orow"><div class="olbl">Pro-life / choice</div><div class="pchip" id="dc-prochoice">—</div></div>
         <div class="orow"><div class="olbl">Euthanasia</div><div class="pchip-n" id="dc-euthanasia">—</div></div>
-        <div class="orow"><div class="olbl">Capital pun. paedos</div><div class="pchip" id="dc-paedo">—</div></div>
         <div class="orow"><div class="olbl">Commie or fascist?</div><div class="pchip" id="dc-commfasc">—</div></div>
         <div class="orow"><div class="olbl">Push the fat man?</div><div class="pchip" id="dc-trolley">—</div></div>
       </div>
@@ -320,30 +319,29 @@ input[type=range]::-moz-range-track{height:4px;border-radius:4px;background:#e5e
 <script>
 const sections=[
   {label:"Personality",questions:[
-    {id:"mbti",type:"chips",q:"What's your MBTI type?",opts:["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP","Not sure"]},
+    {id:"mbti",type:"chips",q:"What's your MBTI type?",sub:'Not sure? Take the test: 16personalities.com/free-personality-test',opts:["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP","Not sure"]},
     {id:"hp",type:"chips",q:"Harry Potter house",opts:["Gryffindor","Slytherin","Ravenclaw","Hufflepuff","Muggle (haven't watched)"]},
     {id:"adhd",type:"scale",q:"ADHD scale",sub:"1 = zen monk, 10 = 47 tabs open",min:1,max:10,def:5,lo:"Focused",hi:"ADHD"},
-    {id:"dark_narc",type:"scale",q:"Dark Triad — Narcissism",sub:"How special do you think you are?",min:1,max:10,def:5,lo:"Humble",hi:"God complex"},
+    {id:"dark_narc",type:"scale",q:"Dark Triad — Narcissism",sub:"How special do you think you are? Test: openpsychometrics.org/tests/SD3",min:1,max:10,def:5,lo:"Humble",hi:"God complex"},
     {id:"dark_mach",type:"scale",q:"Dark Triad — Machiavellianism",sub:"Will you manipulate to get what you want?",min:1,max:10,def:5,lo:"Transparent",hi:"Puppet master"},
     {id:"dark_psy",type:"scale",q:"Dark Triad — Psychopathy",sub:"How much do you actually care about others?",min:1,max:10,def:5,lo:"Empath",hi:"Psychopath"},
     {id:"eq",type:"scale",q:"Emotional intelligence (EQ)",sub:"Self-rated",min:1,max:10,def:6,lo:"Brick wall",hi:"Therapist"},
     {id:"attachment",type:"chips",q:"Attachment style",opts:["Secure","Anxious","Avoidant","Fearful-avoidant","What's that?"]},
   ]},
   {label:"Politics & Ethics",questions:[
-    {id:"compass",type:"chips",q:"Political compass",opts:["Auth-Left","Auth-Right","Lib-Left","Lib-Right","Dead centre","No idea"]},
-    {id:"prochoice",type:"scale",q:"Pro-life or pro-choice?",sub:"1 = strongly pro-life, 10 = strongly pro-choice",min:1,max:10,def:5,lo:"Pro-life",hi:"Pro-choice"},
-    {id:"death_pen",type:"scale",q:"Death penalty",sub:"1 = completely against, 10 = fully for it",min:1,max:10,def:5,lo:"Against",hi:"For"},
+    {id:"compass",type:"chips",q:"Political compass",sub:"Auth = top-down control. Lib = personal freedom. Left = equality/state. Right = markets/individual.",opts:["Auth-Left (Stalin territory)","Auth-Right (Boris/Trump territory)","Lib-Left (Bernie territory)","Lib-Right (Ayn Rand territory)","Dead centre","No idea"]},
+    {id:"prochoice",type:"scale",q:"Pro-life or pro-choice?",sub:"1 = life begins at conception, no exceptions. 10 = your body, your choice, always.",min:1,max:10,def:5,lo:"Pro-life",hi:"Pro-choice"},
+    {id:"death_pen",type:"scale",q:"Death penalty — how broadly should it apply?",sub:"1 = abolish it entirely. 5 = only the worst crimes. 10 = apply it widely including serious crimes like paedophilia.",min:1,max:10,def:5,lo:"Abolish it",hi:"Apply widely"},
     {id:"drugs",type:"chips",q:"Drug policy",opts:["Full legalisation","Decriminalisation","Keep illegal"]},
     {id:"aoc",type:"chips",q:"Age of consent — should it change?",opts:["Raise it","Keep it the same","Lower it"]},
     {id:"immigration",type:"scale",q:"Immigration policy",sub:"1 = open borders, 10 = closed borders",min:1,max:10,def:5,lo:"Open borders",hi:"Closed borders"},
-    {id:"paedo",type:"scale",q:"Capital punishment for paedophiles?",sub:"1 = absolutely not, 10 = bring it in immediately",min:1,max:10,def:5,lo:"Never",hi:"Yes, now"},
-    {id:"euthanasia",type:"scale",q:"Euthanasia",sub:"1 = totally against, 10 = fully legalise",min:1,max:10,def:5,lo:"Against",hi:"Fully legalise"},
+    {id:"euthanasia",type:"scale",q:"Euthanasia — right to die?",sub:"1 = totally against. 10 = every adult should have the right to end their life on their own terms.",min:1,max:10,def:5,lo:"Against",hi:"Full right to die"},
     {id:"woke",type:"scale",q:"Gone woke or gone broke?",sub:"How far has woke/DEI culture gone too far?",min:1,max:10,def:5,lo:"It's fine",hi:"Way too far"},
-    {id:"commfasc",type:"chips",q:"Gun to your head — Communism or Fascism?",opts:["Communism","Fascism","I'd take the bullet"]},
-    {id:"trolley",type:"scale",q:"Trolley problem — push the fat man?",sub:"1 = never, 10 = shove him immediately",min:1,max:10,def:5,lo:"Never",hi:"Shove him"},
+    {id:"commfasc",type:"scale",q:"Communism or Fascism?",sub:"1 = Karl Marx (collective ownership, equality, no private property). 10 = Mussolini (strong state, nationalism, authoritarian order). 5 = neither thanks.",min:1,max:10,def:5,lo:"Full Communism",hi:"Full Fascism"},
+    {id:"trolley",type:"scale",q:"Trolley problem — push the fat man?",sub:"1 = never sacrifice one to save many. 10 = pure utilitarian, shove him immediately.",min:1,max:10,def:5,lo:"Never",hi:"Shove him"},
     {id:"eatrich",type:"scale",q:"Eat the rich",sub:"1 = capitalism is fine, 10 = guillotine time",min:1,max:10,def:5,lo:"Free market",hi:"Guillotine"},
-    {id:"turnin",type:"scale",q:"Would you turn in a friend for a serious crime?",sub:"1 = never, 10 = call the police immediately",min:1,max:10,def:5,lo:"Never",hi:"Dial 999"},
-    {id:"cancel",type:"scale",q:"Cancel culture",sub:"1 = necessary accountability, 10 = completely out of hand",min:1,max:10,def:5,lo:"Necessary",hi:"Out of hand"},
+    {id:"turnin",type:"scale",q:"Would you turn in a friend for a serious crime?",sub:"1 = never, loyalty above all. 10 = call the police immediately.",min:1,max:10,def:5,lo:"Never",hi:"Dial 999"},
+    {id:"cancel",type:"scale",q:"Cancel culture",sub:"1 = necessary accountability. 10 = completely out of hand.",min:1,max:10,def:5,lo:"Necessary",hi:"Out of hand"},
   ]},
   {label:"Lifestyle",questions:[
     {id:"lightweight",type:"scale",q:"Lightweight scale",sub:"1 = one pint and you're gone, 10 = iron liver",min:1,max:10,def:5,lo:"Lightweight",hi:"Heavyweight"},
@@ -356,9 +354,9 @@ const sections=[
   {label:"The Weekend",questions:[
     {id:"vibe",type:"text",q:"In one word — what vibe are you bringing this weekend?",ph:"e.g. Chaos"},
     {id:"position",type:"chips",q:"Your position on a football team",opts:["Striker","Winger","Midfielder","Defender","Goalkeeper","Bench warmer"]},
-    {id:"sport",type:"chips",q:"Your kind of sport",opts:["Racquet sports","Track and field","Strength / lifting","Team sports","Water sports","Not sporty"]},
-    {id:"music",type:"chips",q:"Music taste — pick one",opts:["Hip-hop / R&B","House / Techno","Drum and Bass","Country","Rock / Metal","Classical","Indie / Alt","Pop","Jazz / Soul"]},
-    {id:"drink",type:"chips",q:"Drink of choice",opts:["Beer / Lager","Whiskey / Bourbon","Tequila","Gin","Vodka","Rum","Wine","I don't drink"]},
+    {id:"sport",type:"chips",q:"Your kind of sport",opts:["Football / rugby","Cricket","Tennis / squash / badminton","Golf","Swimming / water sports","Track and field","Gym / lifting","Cycling","Combat sports","Not sporty"]},
+    {id:"music",type:"chips",q:"Music taste — pick one",opts:["Hip-hop / R&B","House / Techno","Drum and Bass","Garage / Grime","Country","Rock / Metal","Punk","Classical / Jazz","Indie / Alt","Pop","Folk / Acoustic","Soul / Funk"]},
+    {id:"drink",type:"chips",q:"Drink of choice",opts:["Beer / Lager","Whiskey / Bourbon","Tequila","Gin","Vodka","Rum","Wine","Cocktails","Cider","I don't drink"]},
   ]},
   {label:"Favourites",questions:[
     {id:"film",type:"text",q:"Favourite film",ph:"e.g. The Dark Knight"},
@@ -427,18 +425,47 @@ function chip(id,val){const el=document.getElementById('dc-'+id);if(el)el.textCo
 function populateSheet(){
   const a=state.answers;
   document.getElementById('dc-name').textContent=state.name||'???';
-  ['mbti','hp','attachment','film','commfasc','drugs','aoc','vibe','position','sport','music','drink'].forEach(id=>chip(id,a[id]));
+  ['mbti','hp','attachment','film','drugs','aoc','vibe','position','sport','music','drink'].forEach(id=>chip(id,a[id]));
   document.getElementById('dc-compass-fallback').textContent=a.compass||'—';
 
-  // ethics scales shown as number chips
-  const ethicScales=['prochoice','death_pen','immigration','paedo','euthanasia','trolley','turnin','cancel'];
-  ethicScales.forEach(id=>{
-    const el=document.getElementById('dc-'+id);
-    if(el) el.textContent=a[id]!==undefined?a[id]+'/10':'—';
-  });
+  // witty label helpers
+  function wittyLabel(val,labels){
+    if(val===undefined||val===null)return'—';
+    const idx=Math.min(Math.floor((val-1)/2),labels.length-1);
+    return labels[Math.max(0,idx)]+' — '+val+'/10';
+  }
 
-  // weekend text fields
-  ['vibe'].forEach(id=>{const el=document.getElementById('dc-'+id);if(el)el.textContent=a[id]||'—';});
+  const deathLabels=['Abolish it entirely','Only for genocide','Heinous crimes only','Serious crimes too','Apply it widely'];
+  const el_dp=document.getElementById('dc-death_pen');
+  if(el_dp)el_dp.textContent=wittyLabel(a.death_pen,deathLabels);
+
+  const prochoiceLabels=['No exceptions (Pence)','Lean pro-life','Complicated','Lean pro-choice','Your body always (AOC)'];
+  const el_pc=document.getElementById('dc-prochoice');
+  if(el_pc)el_pc.textContent=wittyLabel(a.prochoice,prochoiceLabels);
+
+  const euthLabels=['Never (Vatican)','Rare exceptions only','Regulated only','Lean towards it','Philip Nitschke approved'];
+  const el_eu=document.getElementById('dc-euthanasia');
+  if(el_eu)el_eu.textContent=wittyLabel(a.euthanasia,euthLabels);
+
+  const commfascLabels=['Karl Marx','Chomsky vibes','Dead centre','Mussolini-curious','Literally Hitler'];
+  const el_cf=document.getElementById('dc-commfasc');
+  if(el_cf)el_cf.textContent=wittyLabel(a.commfasc,commfascLabels);
+
+  const trolleyLabels=['Never sacrifice anyone','Hesitate but no','Genuinely conflicted','Probably push','Utilitarian — shove him'];
+  const el_tr=document.getElementById('dc-trolley');
+  if(el_tr)el_tr.textContent=wittyLabel(a.trolley,trolleyLabels);
+
+  const immigLabels=['Open borders always','Lean open','Case by case','Lean controlled','Closed — full stop'];
+  const el_im=document.getElementById('dc-immigration');
+  if(el_im)el_im.textContent=wittyLabel(a.immigration,immigLabels);
+
+  const cancelLabels=['It is accountability','Mostly necessary','Sometimes too far','Usually too far','Witch hunt culture'];
+  const el_ca=document.getElementById('dc-cancel');
+  if(el_ca)el_ca.textContent=wittyLabel(a.cancel,cancelLabels);
+
+  const turninLabels=['Ride or die always','Probably protect them','It depends','Probably grass','Call 999 immediately'];
+  const el_tu=document.getElementById('dc-turnin');
+  if(el_tu)el_tu.textContent=wittyLabel(a.turnin,turninLabels);
 
   if(a.dark_narc!==undefined)bar('narc',a.dark_narc,1,10);
   if(a.dark_mach!==undefined)bar('mach',a.dark_mach,1,10);
@@ -537,7 +564,6 @@ function submitToSheet(){
     drugs:a.drugs||'',
     age_of_consent:a.aoc||'',
     immigration:a.immigration||'',
-    capital_punishment_paedos:a.paedo||'',
     euthanasia:a.euthanasia||'',
     gone_woke:a.woke||'',
     commie_or_fascist:a.commfasc||'',
